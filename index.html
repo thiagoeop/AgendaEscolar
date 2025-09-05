@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSync - Agenda Acadêmica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .input-field:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #4338ca;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #0d9488;
+            transform: translateY(-2px);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="gradient-bg text-white py-6">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-calendar-alt text-3xl"></i>
+                    <h1 class="text-2xl font-bold">EduSync</h1>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#" class="hover:text-gray-200 transition">Sobre</a>
+                    <a href="#" class="hover:text-gray-200 transition">Recursos</a>
+                    <a href="#" class="hover:text-gray-200 transition">Contato</a>
+                </nav>
+                <button class="md:hidden text-2xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow flex items-center justify-center py-12 px-4">
+            <div class="container mx-auto flex flex-col lg:flex-row items-center justify-center gap-12">
+                <!-- Hero Section -->
+                <div class="lg:w-1/2 text-center lg:text-left">
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Gestão Acadêmica <span class="text-indigo-600">Simplificada</span></h2>
+                    <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto lg:mx-0">
+                        A plataforma perfeita para professores e alunos organizarem suas atividades acadêmicas ao longo do ano.
+                    </p>
+                    <div class="relative w-full max-w-lg mx-auto lg:mx-0 h-64 bg-white rounded-xl card-shadow p-4 hidden lg:block">
+                        <div class="absolute -top-4 -left-4 bg-indigo-100 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
+                            <i class="fas fa-chalkboard-teacher text-indigo-600 text-3xl"></i>
+                        </div>
+                        <div class="absolute -bottom-4 -right-4 bg-emerald-100 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
+                            <i class="fas fa-user-graduate text-emerald-600 text-3xl"></i>
+                        </div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-32 h-32 flex items-center justify-center card-shadow floating">
+                            <i class="fas fa-sync-alt text-indigo-600 text-4xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Auth Card -->
+                <div class="lg:w-1/2 max-w-md w-full">
+                    <div class="bg-white rounded-xl card-shadow overflow-hidden">
+                        <!-- Tabs -->
+                        <div class="flex border-b">
+                            <button id="login-tab" class="flex-1 py-4 px-6 text-center font-medium tab-active">
+                                <i class="fas fa-sign-in-alt mr-2"></i> Login
+                            </button>
+                            <button id="register-tab" class="flex-1 py-4 px-6 text-center font-medium text-gray-500">
+                                <i class="fas fa-user-plus mr-2"></i> Cadastro
+                            </button>
+                        </div>
+
+                        <!-- Login Form -->
+                        <div id="login-form" class="p-6">
+                            <div class="mb-6">
+                                <label for="login-email" class="block text-gray-700 mb-2">E-mail</label>
+                                <input type="email" id="login-email" class="w-full px-4 py-3 rounded-lg input-field" placeholder="seu@email.com">
+                            </div>
+                            <div class="mb-6">
+                                <label for="login-password" class="block text-gray-700 mb-2">Senha</label>
+                                <input type="password" id="login-password" class="w-full px-4 py-3 rounded-lg input-field" placeholder="••••••••">
+                            </div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="remember-me" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                    <label for="remember-me" class="ml-2 block text-sm text-gray-700">Lembrar-me</label>
+                                </div>
+                                <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">Esqueceu a senha?</a>
+                            </div>
+                            <button class="w-full py-3 px-4 rounded-lg text-white font-medium btn-primary mb-4">
+                                <i class="fas fa-sign-in-alt mr-2"></i> Entrar
+                            </button>
+                            <div class="text-center text-sm text-gray-500">
+                                Ou entre com
+                            </div>
+                            <div class="flex justify-center space-x-4 mt-4">
+                                <button class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center">
+                                    <i class="fab fa-facebook-f"></i>
+                                </button>
+                                <button class="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center">
+                                    <i class="fab fa-google"></i>
+                                </button>
+                                <button class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center">
+                                    <i class="fab fa-microsoft"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Register Form -->
+                        <div id="register-form" class="p-6 hidden">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Tipo de Usuário</label>
+                                <div class="flex space-x-4">
+                                    <button class="flex-1 py-2 px-4 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition">
+                                        <i class="fas fa-user-graduate mr-2"></i> Aluno
+                                    </button>
+                                    <button class="flex-1 py-2 px-4 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition">
+                                        <i class="fas fa-chalkboard-teacher mr-2"></i> Professor
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="register-name" class="block text-gray-700 mb-2">Nome Completo</label>
+                                <input type="text" id="register-name" class="w-full px-4 py-3 rounded-lg input-field" placeholder="Seu nome completo">
+                            </div>
+                            <div class="mb-4">
+                                <label for="register-email" class="block text-gray-700 mb-2">E-mail</label>
+                                <input type="email" id="register-email" class="w-full px-4 py-3 rounded-lg input-field" placeholder="seu@email.com">
+                            </div>
+                            <div class="mb-4">
+                                <label for="register-password" class="block text-gray-700 mb-2">Senha</label>
+                                <input type="password" id="register-password" class="w-full px-4 py-3 rounded-lg input-field" placeholder="••••••••">
+                            </div>
+                            <div class="mb-6">
+                                <label for="register-confirm-password" class="block text-gray-700 mb-2">Confirmar Senha</label>
+                                <input type="password" id="register-confirm-password" class="w-full px-4 py-3 rounded-lg input-field" placeholder="••••••••">
+                            </div>
+                            <div class="flex items-center mb-6">
+                                <input type="checkbox" id="terms" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                <label for="terms" class="ml-2 block text-sm text-gray-700">
+                                    Concordo com os <a href="#" class="text-indigo-600 hover:text-indigo-500">Termos de Serviço</a> e <a href="#" class="text-indigo-600 hover:text-indigo-500">Política de Privacidade</a>
+                                </label>
+                            </div>
+                            <button class="w-full py-3 px-4 rounded-lg text-white font-medium btn-secondary">
+                                <i class="fas fa-user-plus mr-2"></i> Criar Conta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="bg-white py-8 border-t border-gray-200">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                        <i class="fas fa-calendar-alt text-indigo-600 text-xl"></i>
+                        <span class="text-lg font-semibold text-gray-800">EduSync</span>
+                    </div>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="mt-6 text-center md:text-left text-sm text-gray-500">
+                    © 2023 EduSync. Todos os direitos reservados.
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        const loginTab = document.getElementById('login-tab');
+        const registerTab = document.getElementById('register-tab');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('tab-active');
+            loginTab.classList.remove('text-gray-500');
+            registerTab.classList.remove('tab-active');
+            registerTab.classList.add('text-gray-500');
+            loginForm.classList.remove('hidden');
+            registerForm.classList.add('hidden');
+        });
+
+        registerTab.addEventListener('click', () => {
+            registerTab.classList.add('tab-active');
+            registerTab.classList.remove('text-gray-500');
+            loginTab.classList.remove('tab-active');
+            loginTab.classList.add('text-gray-500');
+            registerForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+        });
+
+        // Simulate form submission
+        document.querySelector('#login-form button').addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if(email && password) {
+                window.location.href = 'calendarioescolar.html';
+            } else {
+                alert('Por favor, preencha todos os campos!');
+            }
+        });
+
+        document.querySelector('#register-form button').addEventListener('click', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            const terms = document.getElementById('terms').checked;
+            
+            if(!name || !email || !password || !confirmPassword) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            if(password !== confirmPassword) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+            
+            if(!terms) {
+                alert('Você deve aceitar os termos de serviço!');
+                return;
+            }
+            
+            alert('Conta criada com sucesso!');
+            setTimeout(() => {
+                window.location.href = 'calendarioescolar.html';
+            }, 1000); // 1 segundo de espera
+        });
+    </script>
+</body>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Escolar Anual</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --tertiary: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        
+        .event-teacher {
+            border-left: 4px solid var(--primary);
+            background-color: rgba(79, 70, 229, 0.1);
+        }
+        
+        .event-staff {
+            border-left: 4px solid var(--secondary);
+            background-color: rgba(16, 185, 129, 0.1);
+        }
+        
+        .event-student {
+            border-left: 4px solid var(--tertiary);
+            background-color: rgba(245, 158, 11, 0.1);
+        }
+        
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+        
+        .day-cell {
+            min-height: 100px;
+            transition: all 0.2s ease;
+        }
+        
+        .day-cell:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .day-number {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .current-day {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+        }
+        
+        @media (max-width: 768px) {
+            .month-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            
+            .day-cell {
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Agenda Escolar 2024</h1>
+                    <p class="text-gray-600">Organize seu ano acadêmico</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <select id="year-selector" class="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-3 pr-8 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <button id="today-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition-colors">
+                        Hoje
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-6 flex flex-wrap gap-2">
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-indigo-600 rounded-full mr-2"></div>
+                    <span class="text-sm">Professores</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-emerald-500 rounded-full mr-2"></div>
+                    <span class="text-sm">Servidores</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-amber-500 rounded-full mr-2"></div>
+                    <span class="text-sm">Alunos</span>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Month Navigation -->
+        <div class="flex justify-between items-center mb-6">
+            <button id="prev-year" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="flex items-center gap-4">
+                <button id="prev-month" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <h2 id="current-month-year" class="text-xl font-semibold text-center">Janeiro 2024</h2>
+                
+                <button id="next-month" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <button id="next-year" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        
+        <!-- Month View -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+            <!-- Weekday Headers -->
+            <div class="grid grid-cols-7 bg-gray-100 p-2 border-b">
+                <div class="text-center font-medium text-gray-600">Dom</div>
+                <div class="text-center font-medium text-gray-600">Seg</div>
+                <div class="text-center font-medium text-gray-600">Ter</div>
+                <div class="text-center font-medium text-gray-600">Qua</div>
+                <div class="text-center font-medium text-gray-600">Qui</div>
+                <div class="text-center font-medium text-gray-600">Sex</div>
+                <div class="text-center font-medium text-gray-600">Sáb</div>
+            </div>
+            
+            <!-- Days Grid -->
+            <div id="month-grid" class="month-grid p-2">
+                <!-- Days will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Upcoming Events -->
+        <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-4">Próximos Eventos</h3>
+            <div id="upcoming-events" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Events will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Event Modal -->
+        <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg w-full max-w-md mx-4">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold" id="modal-title">Adicionar Evento</h3>
+                        <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <form id="event-form">
+                        <div class="mb-4">
+                            <label for="event-title" class="block text-sm font-medium text-gray-700 mb-1">Título</label>
+                            <input type="text" id="event-title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="event-date" class="block text-sm font-medium text-gray-700 mb-1">Data</label>
+                            <input type="date" id="event-date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="event-type" class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                            <select id="event-type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="teacher">Professor</option>
+                                <option value="staff">Servidor</option>
+                                <option value="student">Aluno</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="event-description" class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+                            <textarea id="event-description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                        </div>
+                        
+                        <div class="flex justify-end gap-2">
+                            <button type="button" id="cancel-event" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+                                Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Current date
+            let currentDate = new Date();
+            let currentMonth = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
+            
+            // DOM Elements
+            const monthYearElement = document.getElementById('current-month-year');
+            const monthGridElement = document.getElementById('month-grid');
+            const prevMonthButton = document.getElementById('prev-month');
+            const nextMonthButton = document.getElementById('next-month');
+            const prevYearButton = document.getElementById('prev-year');
+            const nextYearButton = document.getElementById('next-year');
+            const todayButton = document.getElementById('today-btn');
+            const yearSelector = document.getElementById('year-selector');
+            const upcomingEventsElement = document.getElementById('upcoming-events');
+            const eventModal = document.getElementById('event-modal');
+            const closeModalButton = document.getElementById('close-modal');
+            const cancelEventButton = document.getElementById('cancel-event');
+            const eventForm = document.getElementById('event-form');
+            
+            // Sample events data
+            let events = [
+                {
+                    id: 1,
+                    title: 'Reunião Pedagógica',
+                    date: '2024-01-10',
+                    type: 'teacher',
+                    description: 'Reunião com todos os professores para planejamento do semestre.'
+                },
+                {
+                    id: 2,
+                    title: 'Início das Aulas',
+                    date: '2024-02-05',
+                    type: 'student',
+                    description: 'Primeiro dia de aula para todos os alunos.'
+                },
+                {
+                    id: 3,
+                    title: 'Capacitação TI',
+                    date: '2024-01-15',
+                    type: 'staff',
+                    description: 'Treinamento para equipe de TI sobre novos sistemas.'
+                },
+                {
+                    id: 4,
+                    title: 'Conselho de Classe',
+                    date: '2024-04-20',
+                    type: 'teacher',
+                    description: 'Avaliação do desempenho dos alunos no primeiro bimestre.'
+                },
+                {
+                    id: 5,
+                    title: 'Festa Junina',
+                    date: '2024-06-15',
+                    type: 'student',
+                    description: 'Evento cultural com comidas típicas e apresentações.'
+                },
+                {
+                    id: 6,
+                    title: 'Semana Pedagógica',
+                    date: '2024-07-22',
+                    type: 'teacher',
+                    description: 'Semana de planejamento e formação continuada.'
+                }
+            ];
+            
+            // Initialize calendar
+            function initCalendar() {
+                renderCalendar(currentMonth, currentYear);
+                renderUpcomingEvents();
+                yearSelector.value = currentYear;
+            }
+            
+            // Render calendar for specific month and year
+            function renderCalendar(month, year) {
+                // Update month/year display
+                const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+                monthYearElement.textContent = `${monthNames[month]} ${year}`;
+                
+                // Clear previous days
+                monthGridElement.innerHTML = '';
+                
+                // Get first day of month and total days in month
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                
+                // Get days from previous month to display
+                const prevMonthDays = new Date(year, month, 0).getDate();
+                
+                // Create day cells
+                let dayCount = 1;
+                let nextMonthDay = 1;
+                
+                // We need 6 rows to cover all possibilities (5 rows might not be enough)
+                for (let i = 0; i < 42; i++) {
+                    const dayCell = document.createElement('div');
+                    dayCell.className = 'day-cell bg-white border border-gray-200 rounded-md p-2';
+                    
+                    const dayNumber = document.createElement('div');
+                    dayNumber.className = 'day-number text-sm font-medium mb-1';
+                    
+                    let dayToDisplay;
+                    let isCurrentMonth = false;
+                    let isToday = false;
+                    
+                    // Previous month days
+                    if (i < firstDay) {
+                        dayToDisplay = prevMonthDays - (firstDay - 1 - i);
+                        dayCell.classList.add('text-gray-400');
+                    } 
+                    // Next month days
+                    else if (dayCount > daysInMonth) {
+                        dayToDisplay = nextMonthDay++;
+                        dayCell.classList.add('text-gray-400');
+                    } 
+                    // Current month days
+                    else {
+                        dayToDisplay = dayCount++;
+                        isCurrentMonth = true;
+                        
+                        // Check if it's today
+                        const today = new Date();
+                        if (today.getDate() === dayToDisplay && 
+                            today.getMonth() === month && 
+                            today.getFullYear() === year) {
+                            dayNumber.classList.add('current-day');
+                            isToday = true;
+                        }
+                    }
+                    
+                    dayNumber.textContent = dayToDisplay;
+                    dayCell.appendChild(dayNumber);
+                    
+                    // Add events to the day
+                    if (isCurrentMonth) {
+                        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(dayToDisplay).padStart(2, '0')}`;
+                        const dayEvents = events.filter(event => event.date === dateStr);
+                        
+                        dayEvents.forEach(event => {
+                            const eventElement = document.createElement('div');
+                            eventElement.className = 'text-xs p-1 mb-1 rounded truncate cursor-pointer';
+                            
+                            if (event.type === 'teacher') {
+                                eventElement.classList.add('event-teacher');
+                            } else if (event.type === 'staff') {
+                                eventElement.classList.add('event-staff');
+                            } else {
+                                eventElement.classList.add('event-student');
+                            }
+                            
+                            eventElement.textContent = event.title;
+                            eventElement.title = `${event.title}\n${event.description}`;
+                            eventElement.addEventListener('click', () => openEventModal(event));
+                            
+                            dayCell.appendChild(eventElement);
+                        });
+                        
+                        // Add click event to create new event
+                        dayCell.addEventListener('click', (e) => {
+                            if (e.target === dayCell || e.target === dayNumber) {
+                                openEventModal(null, dateStr);
+                            }
+                        });
+                    }
+                    
+                    monthGridElement.appendChild(dayCell);
+                }
+            }
+            
+            // Render upcoming events (next 30 days)
+            function renderUpcomingEvents() {
+                upcomingEventsElement.innerHTML = '';
+                
+                const today = new Date();
+                const nextMonth = new Date(today);
+                nextMonth.setDate(today.getDate() + 30);
+                
+                const upcomingEvents = events.filter(event => {
+                    const eventDate = new Date(event.date);
+                    return eventDate >= today && eventDate <= nextMonth;
+                }).sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                if (upcomingEvents.length === 0) {
+                    const noEvents = document.createElement('div');
+                    noEvents.className = 'col-span-3 text-center text-gray-500 py-4';
+                    noEvents.textContent = 'Nenhum evento programado para os próximos 30 dias';
+                    upcomingEventsElement.appendChild(noEvents);
+                    return;
+                }
+                
+                upcomingEvents.forEach(event => {
+                    const eventElement = document.createElement('div');
+                    eventElement.className = 'bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200';
+                    
+                    const eventDate = new Date(event.date);
+                    const day = eventDate.getDate();
+                    const month = eventDate.toLocaleString('default', { month: 'short' });
+                    
+                    let typeColor, typeText;
+                    if (event.type === 'teacher') {
+                        typeColor = 'bg-indigo-600';
+                        typeText = 'Professor';
+                    } else if (event.type === 'staff') {
+                        typeColor = 'bg-emerald-500';
+                        typeText = 'Servidor';
+                    } else {
+                        typeColor = 'bg-amber-500';
+                        typeText = 'Aluno';
+                    }
+                    
+                    eventElement.innerHTML = `
+                        <div class="flex">
+                            <div class="${typeColor} w-16 flex flex-col items-center justify-center text-white p-2">
+                                <div class="text-2xl font-bold">${day}</div>
+                                <div class="text-xs uppercase">${month}</div>
+                            </div>
+                            <div class="flex-1 p-4">
+                                <h4 class="font-semibold mb-1">${event.title}</h4>
+                                <div class="flex items-center text-sm text-gray-500 mb-2">
+                                    <i class="fas fa-users mr-2"></i>
+                                    <span>${typeText}</span>
+                                </div>
+                                <p class="text-sm text-gray-600 line-clamp-2">${event.description}</p>
+                                <button class="mt-3 text-sm text-indigo-600 hover:text-indigo-800 transition-colors">
+                                    Ver detalhes
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    eventElement.querySelector('button').addEventListener('click', () => openEventModal(event));
+                    upcomingEventsElement.appendChild(eventElement);
+                });
+            }
+            
+            // Open event modal (for viewing/editing or creating)
+            function openEventModal(event = null, dateStr = null) {
+                const modalTitle = document.getElementById('modal-title');
+                const eventTitle = document.getElementById('event-title');
+                const eventDate = document.getElementById('event-date');
+                const eventType = document.getElementById('event-type');
+                const eventDescription = document.getElementById('event-description');
+                
+                if (event) {
+                    // Edit existing event
+                    modalTitle.textContent = 'Editar Evento';
+                    eventTitle.value = event.title;
+                    eventDate.value = event.date;
+                    eventType.value = event.type;
+                    eventDescription.value = event.description;
+                    
+                    // Store event ID in form for reference
+                    eventForm.dataset.eventId = event.id;
+                } else {
+                    // Create new event
+                    modalTitle.textContent = 'Adicionar Evento';
+                    eventTitle.value = '';
+                    eventDate.value = dateStr || '';
+                    eventType.value = 'teacher';
+                    eventDescription.value = '';
+                    
+                    // Remove event ID reference
+                    delete eventForm.dataset.eventId;
+                }
+                
+                eventModal.classList.remove('hidden');
+            }
+            
+            // Close event modal
+            function closeEventModal() {
+                eventModal.classList.add('hidden');
+            }
+            
+            // Event listeners
+            prevMonthButton.addEventListener('click', () => {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+            
+            nextMonthButton.addEventListener('click', () => {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+            
+            prevYearButton.addEventListener('click', () => {
+                currentYear--;
+                renderCalendar(currentMonth, currentYear);
+                yearSelector.value = currentYear;
+            });
+            
+            nextYearButton.addEventListener('click', () => {
+                currentYear++;
+                renderCalendar(currentMonth, currentYear);
+                yearSelector.value = currentYear;
+            });
+            
+            todayButton.addEventListener('click', () => {
+                currentDate = new Date();
+                currentMonth = currentDate.getMonth();
+                currentYear = currentDate.getFullYear();
+                renderCalendar(currentMonth, currentYear);
+                yearSelector.value = currentYear;
+            });
+            
+            yearSelector.addEventListener('change', () => {
+                currentYear = parseInt(yearSelector.value);
+                renderCalendar(currentMonth, currentYear);
+            });
+            
+            closeModalButton.addEventListener('click', closeEventModal);
+            cancelEventButton.addEventListener('click', closeEventModal);
+            
+            eventForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const eventId = eventForm.dataset.eventId;
+                const title = document.getElementById('event-title').value;
+                const date = document.getElementById('event-date').value;
+                const type = document.getElementById('event-type').value;
+                const description = document.getElementById('event-description').value;
+                
+                if (eventId) {
+                    // Update existing event
+                    const index = events.findIndex(e => e.id == eventId);
+                    if (index !== -1) {
+                        events[index] = {
+                            id: parseInt(eventId),
+                            title,
+                            date,
+                            type,
+                            description
+                        };
+                    }
+                } else {
+                    // Add new event
+                    const newId = events.length > 0 ? Math.max(...events.map(e => e.id)) + 1 : 1;
+                    events.push({
+                        id: newId,
+                        title,
+                        date,
+                        type,
+                        description
+                    });
+                }
+                
+                closeEventModal();
+                renderCalendar(currentMonth, currentYear);
+                renderUpcomingEvents();
+            });
+            
+            // Initialize the calendar
+            initCalendar();
+        });
+    </script>
+</body>
+</html>
+</html>
