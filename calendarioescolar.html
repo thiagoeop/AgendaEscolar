@@ -27,6 +27,7 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f1f5f9;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cpath fill="%234f46e5" fill-opacity="0.03" d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z"/%3E%3C/svg%3E');
         }
         
         .event-teacher {
@@ -52,12 +53,15 @@
         
         .day-cell {
             min-height: 100px;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            border-radius: 0.5rem;
+            backdrop-filter: blur(5px);
         }
         
         .day-cell:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: var(--primary);
         }
         
         .day-number {
@@ -87,16 +91,21 @@
 </head>
 <body class="min-h-screen">
     <!-- Navbar com informações do usuário e logout -->
-    <nav class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <i class="fas fa-calendar-alt text-indigo-600 text-xl"></i>
-                <span class="text-lg font-semibold text-gray-800">EduSync</span>
+    <nav class="bg-white bg-opacity-90 backdrop-blur-md shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 p-2 rounded-lg shadow-md">
+                    <i class="fas fa-calendar-alt text-white text-xl"></i>
+                </div>
+                <span class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-emerald-500 bg-clip-text text-transparent">EduSync</span>
             </div>
-            <div class="flex items-center space-x-4">
-                <div id="user-info" class="text-sm text-gray-600"></div>
-                <button id="logout-btn" class="text-sm text-indigo-600 hover:text-indigo-800 transition">
-                    <i class="fas fa-sign-out-alt mr-1"></i> Sair
+            <div class="flex items-center space-x-6">
+                <div id="user-info" class="text-sm font-medium text-gray-700 flex items-center">
+                    <i class="fas fa-user-circle text-indigo-500 mr-2 text-lg"></i>
+                    <span class="user-name"></span>
+                </div>
+                <button id="logout-btn" class="text-sm bg-white hover:bg-gray-100 text-indigo-600 hover:text-indigo-800 px-4 py-2 rounded-lg border border-indigo-200 shadow-sm hover:shadow transition-all flex items-center">
+                    <i class="fas fa-sign-out-alt mr-2"></i> Sair
                 </button>
             </div>
         </div>
@@ -107,21 +116,22 @@
         <header class="mb-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900">Agenda Escolar 2024</h1>
+                    <h1 class="text-3xl font-bold text-gray-900 bg-gradient-to-r from-indigo-600 to-emerald-500 bg-clip-text text-transparent">Agenda Escolar</h1>
                     <p class="text-gray-600">Organize seu ano acadêmico</p>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="relative">
-                        <select id="year-selector" class="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-3 pr-8 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <select id="year-selector" class="appearance-none bg-white border-2 border-indigo-200 rounded-lg py-2 pl-4 pr-10 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm transition-all hover:shadow">
                             <option value="2024">2024</option>
                             <option value="2025">2025</option>
+                            <option value="2026">2026</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-indigo-600">
                             <i class="fas fa-chevron-down"></i>
                         </div>
                     </div>
-                    <button id="today-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition-colors">
-                        Hoje
+                    <button id="today-btn" class="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+                        <i class="fas fa-calendar-day"></i> Hoje
                     </button>
                 </div>
             </div>
@@ -144,7 +154,7 @@
         
         <!-- Month Navigation -->
         <div class="flex justify-between items-center mb-6">
-            <button id="prev-year" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+            <button id="prev-year" class="p-3 rounded-full hover:bg-indigo-100 text-indigo-600 transition-all shadow-sm hover:shadow">
                 <i class="fas fa-chevron-left"></i>
             </button>
             
@@ -160,7 +170,7 @@
                 </button>
             </div>
             
-            <button id="next-year" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+            <button id="next-year" class="p-3 rounded-full hover:bg-indigo-100 text-indigo-600 transition-all shadow-sm hover:shadow">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
