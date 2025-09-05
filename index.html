@@ -17,7 +17,6 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f1f5f9;
-            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cpath fill="%234f46e5" fill-opacity="0.03" d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.343 3 3 3zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z"/%3E%3C/svg%3E');
         }
         
         .gradient-bg {
@@ -78,20 +77,18 @@
 <body>
     <div class="min-h-screen flex flex-col">
         <!-- Header -->
-        <header class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white py-6 shadow-lg">
+        <header class="gradient-bg text-white py-6">
             <div class="container mx-auto px-4 flex justify-between items-center">
-                <div class="flex items-center space-x-3">
-                    <div class="bg-white bg-opacity-20 p-2 rounded-lg backdrop-blur-sm">
-                        <i class="fas fa-calendar-alt text-3xl"></i>
-                    </div>
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-calendar-alt text-3xl"></i>
                     <h1 class="text-2xl font-bold">EduSync</h1>
                 </div>
                 <nav class="hidden md:flex space-x-6">
-                    <a href="#" class="hover:text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-lg transition-all">Sobre</a>
-                    <a href="#" class="hover:text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-lg transition-all">Recursos</a>
-                    <a href="#" class="hover:text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-lg transition-all">Contato</a>
+                    <a href="#" class="hover:text-gray-200 transition">Sobre</a>
+                    <a href="#" class="hover:text-gray-200 transition">Recursos</a>
+                    <a href="#" class="hover:text-gray-200 transition">Contato</a>
                 </nav>
-                <button class="md:hidden text-2xl bg-white bg-opacity-20 p-2 rounded-lg">
+                <button class="md:hidden text-2xl">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
@@ -102,7 +99,7 @@
             <div class="container mx-auto flex flex-col lg:flex-row items-center justify-center gap-12">
                 <!-- Hero Section -->
                 <div class="lg:w-1/2 text-center lg:text-left">
-                    <h2 class="text-4xl md:text-5xl font-bold mb-6"><span class="bg-gradient-to-r from-indigo-600 to-emerald-500 bg-clip-text text-transparent">Agenda Escolar</span> <span class="text-gray-800">Simplificada</span></h2>
+                    <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">Gestão Acadêmica <span class="text-indigo-600">Simplificada</span></h2>
                     <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto lg:mx-0">
                         A plataforma perfeita para professores e alunos organizarem suas atividades acadêmicas ao longo do ano.
                     </p>
@@ -149,24 +146,21 @@
                                 </div>
                                 <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">Esqueceu a senha?</a>
                             </div>
-                            <button class="w-full py-3 px-4 rounded-lg text-white font-medium bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-md hover:shadow-lg transition-all mb-4 flex items-center justify-center">
+                            <button class="w-full py-3 px-4 rounded-lg text-white font-medium btn-primary mb-4">
                                 <i class="fas fa-sign-in-alt mr-2"></i> Entrar
                             </button>
                             <div class="text-center text-sm text-gray-500">
                                 Ou entre com
                             </div>
                             <div class="flex justify-center space-x-4 mt-4">
-                                <button class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center" title="Entrar com Facebook">
+                                <button class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center">
                                     <i class="fab fa-facebook-f"></i>
                                 </button>
-                                <button class="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center" title="Entrar com Google" onclick="window.location.href='/auth/google'">
+                                <button class="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center">
                                     <i class="fab fa-google"></i>
                                 </button>
-                                <button class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center" title="Entrar com Microsoft">
+                                <button class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center">
                                     <i class="fab fa-microsoft"></i>
-                                </button>
-                                <button class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center" title="Entrar com Apple">
-                                    <i class="fab fa-apple"></i>
                                 </button>
                             </div>
                         </div>
@@ -175,30 +169,12 @@
                         <div id="register-form" class="p-6 hidden">
                             <div class="mb-4">
                                 <label class="block text-gray-700 mb-2">Tipo de Usuário</label>
-                                <div class="flex space-x-2">
-                                    <button id="student-type" class="flex-1 py-3 px-2 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition-all shadow-sm hover:shadow group">
-                                        <div class="flex flex-col items-center">
-                                            <div class="bg-indigo-100 rounded-full p-2 mb-1 group-hover:bg-indigo-200 transition-all">
-                                                <i class="fas fa-user-graduate text-indigo-600"></i>
-                                            </div>
-                                            <span>Aluno</span>
-                                        </div>
+                                <div class="flex space-x-4">
+                                    <button class="flex-1 py-2 px-4 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition">
+                                        <i class="fas fa-user-graduate mr-2"></i> Aluno
                                     </button>
-                                    <button id="teacher-type" class="flex-1 py-3 px-2 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition-all shadow-sm hover:shadow group">
-                                        <div class="flex flex-col items-center">
-                                            <div class="bg-indigo-100 rounded-full p-2 mb-1 group-hover:bg-indigo-200 transition-all">
-                                                <i class="fas fa-chalkboard-teacher text-indigo-600"></i>
-                                            </div>
-                                            <span>Professor</span>
-                                        </div>
-                                    </button>
-                                    <button id="staff-type" class="flex-1 py-3 px-2 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition-all shadow-sm hover:shadow group">
-                                        <div class="flex flex-col items-center">
-                                            <div class="bg-indigo-100 rounded-full p-2 mb-1 group-hover:bg-indigo-200 transition-all">
-                                                <i class="fas fa-user-tie text-indigo-600"></i>
-                                            </div>
-                                            <span>Servidor</span>
-                                        </div>
+                                    <button class="flex-1 py-2 px-4 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition">
+                                        <i class="fas fa-chalkboard-teacher mr-2"></i> Professor
                                     </button>
                                 </div>
                             </div>
@@ -224,7 +200,7 @@
                                     Concordo com os <a href="#" class="text-indigo-600 hover:text-indigo-500">Termos de Serviço</a> e <a href="#" class="text-indigo-600 hover:text-indigo-500">Política de Privacidade</a>
                                 </label>
                             </div>
-                            <button id="create-account-btn" class="w-full py-3 px-4 rounded-lg text-white font-medium bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 shadow-md hover:shadow-lg transition-all flex items-center justify-center">
+                            <button class="w-full py-3 px-4 rounded-lg text-white font-medium btn-secondary">
                                 <i class="fas fa-user-plus mr-2"></i> Criar Conta
                             </button>
                         </div>
@@ -261,12 +237,6 @@
         const registerTab = document.getElementById('register-tab');
         const loginForm = document.getElementById('login-form');
         const registerForm = document.getElementById('register-form');
-        
-        // Tipo de usuário seleção
-        const studentType = document.getElementById('student-type');
-        const teacherType = document.getElementById('teacher-type');
-        const staffType = document.getElementById('staff-type');
-        let userType = ''; // Para armazenar o tipo de usuário selecionado
 
         loginTab.addEventListener('click', () => {
             loginTab.classList.add('tab-active');
@@ -275,28 +245,6 @@
             registerTab.classList.add('text-gray-500');
             loginForm.classList.remove('hidden');
             registerForm.classList.add('hidden');
-        });
-        
-        // Destacar seleção de tipo de usuário
-        studentType.addEventListener('click', () => {
-            studentType.classList.add('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
-            teacherType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
-            staffType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
-            userType = 'aluno';
-        });
-        
-        teacherType.addEventListener('click', () => {
-            teacherType.classList.add('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
-            studentType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
-            staffType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
-            userType = 'professor';
-        });
-        
-        staffType.addEventListener('click', () => {
-            staffType.classList.add('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
-            studentType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
-            teacherType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
-            userType = 'servidor';
         });
 
         registerTab.addEventListener('click', () => {
@@ -308,76 +256,646 @@
             loginForm.classList.add('hidden');
         });
 
-        // Login form submission
+        // Simulate form submission
         document.querySelector('#login-form button').addEventListener('click', (e) => {
             e.preventDefault();
             const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
             
-            if(!email || !password) {
-                alert('Por favor, preencha todos os campos!');
-                return;
-            }
-            
-            // Verificar se as credenciais correspondem às cadastradas
-            const registeredEmail = localStorage.getItem('registeredEmail');
-            const registeredPassword = localStorage.getItem('registeredPassword');
-            const registeredName = localStorage.getItem('registeredName');
-            
-            if(email === registeredEmail && password === registeredPassword) {
-                // Salvar dados do usuário no localStorage para manter a sessão
-                localStorage.setItem('userEmail', email);
-                localStorage.setItem('userName', registeredName);
-                localStorage.setItem('isLoggedIn', 'true');
-                localStorage.setItem('userType', localStorage.getItem('userType')); // Manter o tipo de usuário
-                
-                // Redirecionar para a página do calendário
-                window.location.href = 'calendario.html';
+            if(email && password) {
+                window.location.href = 'calendarioescolar.html';
             } else {
-                alert('Email ou senha incorretos!');
+                alert('Por favor, preencha todos os campos!');
             }
         });
 
-        // Register form submission - apenas no botão Criar Conta
-        document.getElementById('create-account-btn').addEventListener('click', (e) => {
+        document.querySelector('#register-form button').addEventListener('click', (e) => {
             e.preventDefault();
-            const name = document.getElementById('register-name').value;
-            const email = document.getElementById('register-email').value;
-            const password = document.getElementById('register-password').value;
-            const confirmPassword = document.getElementById('register-confirm-password').value;
-            const terms = document.getElementById('terms').checked;
-            
+            const nameInput = document.getElementById('register-name');
+            const emailInput = document.getElementById('register-email');
+            const passwordInput = document.getElementById('register-password');
+            const confirmPasswordInput = document.getElementById('register-confirm-password');
+            const termsInput = document.getElementById('terms');
+
+            const name = nameInput.value;
+            const email = emailInput.value;
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+            const terms = termsInput.checked;
+
             if(!name || !email || !password || !confirmPassword) {
                 alert('Por favor, preencha todos os campos!');
                 return;
             }
-            
+
             if(password !== confirmPassword) {
                 alert('As senhas não coincidem!');
                 return;
             }
-            
+
             if(!terms) {
                 alert('Você deve aceitar os termos de serviço!');
                 return;
             }
-            
-            if(!userType) {
-                alert('Por favor, selecione se você é Aluno ou Professor!');
-                return;
-            }
-            
-            // Salvar dados do usuário no localStorage (sem marcar como logado)
-            localStorage.setItem('registeredName', name);
-            localStorage.setItem('registeredEmail', email);
-            localStorage.setItem('registeredPassword', password); // Armazenar senha para validação no login
-            localStorage.setItem('userType', userType); // Salvar tipo de usuário
-            
-            alert('Conta criada com sucesso! Por favor, faça login com suas credenciais.');
-            
-            // Alternar para a aba de login após o cadastro
-            loginTab.click();
+
+            alert('Conta criada com sucesso!');
+
+            // Limpar os campos do formulário
+            nameInput.value = '';
+            emailInput.value = '';
+            passwordInput.value = '';
+            confirmPasswordInput.value = '';
+            termsInput.checked = false;
+
+            setTimeout(() => {
+                window.location.href = 'calendarioescolar.html';
+            }, 1000); // 1 segundo de espera
         });
     </script>
 </body>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda Escolar Anual</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --tertiary: #f59e0b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+        }
+        
+        .event-teacher {
+            border-left: 4px solid var(--primary);
+            background-color: rgba(79, 70, 229, 0.1);
+        }
+        
+        .event-staff {
+            border-left: 4px solid var(--secondary);
+            background-color: rgba(16, 185, 129, 0.1);
+        }
+        
+        .event-student {
+            border-left: 4px solid var(--tertiary);
+            background-color: rgba(245, 158, 11, 0.1);
+        }
+        
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+        
+        .day-cell {
+            min-height: 100px;
+            transition: all 0.2s ease;
+        }
+        
+        .day-cell:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        
+        .day-number {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .current-day {
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50%;
+        }
+        
+        @media (max-width: 768px) {
+            .month-grid {
+                grid-template-columns: repeat(1, 1fr);
+            }
+            
+            .day-cell {
+                min-height: auto;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div>
+                    <h1 class="text-3xl font-bold text-gray-900">Agenda Escolar 2024</h1>
+                    <p class="text-gray-600">Organize seu ano acadêmico</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="relative">
+                        <select id="year-selector" class="appearance-none bg-white border border-gray-300 rounded-md py-2 pl-3 pr-8 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                            <option value="2024">2024</option>
+                            <option value="2025">2025</option>
+                        </select>
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <button id="today-btn" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md transition-colors">
+                        Hoje
+                    </button>
+                </div>
+            </div>
+            
+            <div class="mt-6 flex flex-wrap gap-2">
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-indigo-600 rounded-full mr-2"></div>
+                    <span class="text-sm">Professores</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-emerald-500 rounded-full mr-2"></div>
+                    <span class="text-sm">Servidores</span>
+                </div>
+                <div class="flex items-center">
+                    <div class="w-4 h-4 bg-amber-500 rounded-full mr-2"></div>
+                    <span class="text-sm">Alunos</span>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Month Navigation -->
+        <div class="flex justify-between items-center mb-6">
+            <button id="prev-year" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            
+            <div class="flex items-center gap-4">
+                <button id="prev-month" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <h2 id="current-month-year" class="text-xl font-semibold text-center">Janeiro 2024</h2>
+                
+                <button id="next-month" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <button id="next-year" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+        
+        <!-- Month View -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+            <!-- Weekday Headers -->
+            <div class="grid grid-cols-7 bg-gray-100 p-2 border-b">
+                <div class="text-center font-medium text-gray-600">Dom</div>
+                <div class="text-center font-medium text-gray-600">Seg</div>
+                <div class="text-center font-medium text-gray-600">Ter</div>
+                <div class="text-center font-medium text-gray-600">Qua</div>
+                <div class="text-center font-medium text-gray-600">Qui</div>
+                <div class="text-center font-medium text-gray-600">Sex</div>
+                <div class="text-center font-medium text-gray-600">Sáb</div>
+            </div>
+            
+            <!-- Days Grid -->
+            <div id="month-grid" class="month-grid p-2">
+                <!-- Days will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Upcoming Events -->
+        <div class="mb-8">
+            <h3 class="text-xl font-semibold mb-4">Próximos Eventos</h3>
+            <div id="upcoming-events" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Events will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <!-- Event Modal -->
+        <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg w-full max-w-md mx-4">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-semibold" id="modal-title">Adicionar Evento</h3>
+                        <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    
+                    <form id="event-form">
+                        <div class="mb-4">
+                            <label for="event-title" class="block text-sm font-medium text-gray-700 mb-1">Título</label>
+                            <input type="text" id="event-title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="event-date" class="block text-sm font-medium text-gray-700 mb-1">Data</label>
+                            <input type="date" id="event-date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="event-type" class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                            <select id="event-type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                <option value="teacher">Professor</option>
+                                <option value="staff">Servidor</option>
+                                <option value="student">Aluno</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="event-description" class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
+                            <textarea id="event-description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                        </div>
+                        
+                        <div class="flex justify-end gap-2">
+                            <button type="button" id="cancel-event" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
+                                Cancelar
+                            </button>
+                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
+                                Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Current date
+            let currentDate = new Date();
+            let currentMonth = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
+            
+            // DOM Elements
+            const monthYearElement = document.getElementById('current-month-year');
+            const monthGridElement = document.getElementById('month-grid');
+            const prevMonthButton = document.getElementById('prev-month');
+            const nextMonthButton = document.getElementById('next-month');
+            const prevYearButton = document.getElementById('prev-year');
+            const nextYearButton = document.getElementById('next-year');
+            const todayButton = document.getElementById('today-btn');
+            const yearSelector = document.getElementById('year-selector');
+            const upcomingEventsElement = document.getElementById('upcoming-events');
+            const eventModal = document.getElementById('event-modal');
+            const closeModalButton = document.getElementById('close-modal');
+            const cancelEventButton = document.getElementById('cancel-event');
+            const eventForm = document.getElementById('event-form');
+            
+            // Sample events data
+            let events = [
+                {
+                    id: 1,
+                    title: 'Reunião Pedagógica',
+                    date: '2024-01-10',
+                    type: 'teacher',
+                    description: 'Reunião com todos os professores para planejamento do semestre.'
+                },
+                {
+                    id: 2,
+                    title: 'Início das Aulas',
+                    date: '2024-02-05',
+                    type: 'student',
+                    description: 'Primeiro dia de aula para todos os alunos.'
+                },
+                {
+                    id: 3,
+                    title: 'Capacitação TI',
+                    date: '2024-01-15',
+                    type: 'staff',
+                    description: 'Treinamento para equipe de TI sobre novos sistemas.'
+                },
+                {
+                    id: 4,
+                    title: 'Conselho de Classe',
+                    date: '2024-04-20',
+                    type: 'teacher',
+                    description: 'Avaliação do desempenho dos alunos no primeiro bimestre.'
+                },
+                {
+                    id: 5,
+                    title: 'Festa Junina',
+                    date: '2024-06-15',
+                    type: 'student',
+                    description: 'Evento cultural com comidas típicas e apresentações.'
+                },
+                {
+                    id: 6,
+                    title: 'Semana Pedagógica',
+                    date: '2024-07-22',
+                    type: 'teacher',
+                    description: 'Semana de planejamento e formação continuada.'
+                }
+            ];
+            
+            // Initialize calendar
+            function initCalendar() {
+                renderCalendar(currentMonth, currentYear);
+                renderUpcomingEvents();
+                yearSelector.value = currentYear;
+            }
+            
+            // Render calendar for specific month and year
+            function renderCalendar(month, year) {
+                // Update month/year display
+                const monthNames = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"];
+                monthYearElement.textContent = `${monthNames[month]} ${year}`;
+                
+                // Clear previous days
+                monthGridElement.innerHTML = '';
+                
+                // Get first day of month and total days in month
+                const firstDay = new Date(year, month, 1).getDay();
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                
+                // Get days from previous month to display
+                const prevMonthDays = new Date(year, month, 0).getDate();
+                
+                // Create day cells
+                let dayCount = 1;
+                let nextMonthDay = 1;
+                
+                // We need 6 rows to cover all possibilities (5 rows might not be enough)
+                for (let i = 0; i < 42; i++) {
+                    const dayCell = document.createElement('div');
+                    dayCell.className = 'day-cell bg-white border border-gray-200 rounded-md p-2';
+                    
+                    const dayNumber = document.createElement('div');
+                    dayNumber.className = 'day-number text-sm font-medium mb-1';
+                    
+                    let dayToDisplay;
+                    let isCurrentMonth = false;
+                    let isToday = false;
+                    
+                    // Previous month days
+                    if (i < firstDay) {
+                        dayToDisplay = prevMonthDays - (firstDay - 1 - i);
+                        dayCell.classList.add('text-gray-400');
+                    } 
+                    // Next month days
+                    else if (dayCount > daysInMonth) {
+                        dayToDisplay = nextMonthDay++;
+                        dayCell.classList.add('text-gray-400');
+                    } 
+                    // Current month days
+                    else {
+                        dayToDisplay = dayCount++;
+                        isCurrentMonth = true;
+                        
+                        // Check if it's today
+                        const today = new Date();
+                        if (today.getDate() === dayToDisplay && 
+                            today.getMonth() === month && 
+                            today.getFullYear() === year) {
+                            dayNumber.classList.add('current-day');
+                            isToday = true;
+                        }
+                    }
+                    
+                    dayNumber.textContent = dayToDisplay;
+                    dayCell.appendChild(dayNumber);
+                    
+                    // Add events to the day
+                    if (isCurrentMonth) {
+                        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(dayToDisplay).padStart(2, '0')}`;
+                        const dayEvents = events.filter(event => event.date === dateStr);
+                        
+                        dayEvents.forEach(event => {
+                            const eventElement = document.createElement('div');
+                            eventElement.className = 'text-xs p-1 mb-1 rounded truncate cursor-pointer';
+                            
+                            if (event.type === 'teacher') {
+                                eventElement.classList.add('event-teacher');
+                            } else if (event.type === 'staff') {
+                                eventElement.classList.add('event-staff');
+                            } else {
+                                eventElement.classList.add('event-student');
+                            }
+                            
+                            eventElement.textContent = event.title;
+                            eventElement.title = `${event.title}\n${event.description}`;
+                            eventElement.addEventListener('click', () => openEventModal(event));
+                            
+                            dayCell.appendChild(eventElement);
+                        });
+                        
+                        // Add click event to create new event
+                        dayCell.addEventListener('click', (e) => {
+                            if (e.target === dayCell || e.target === dayNumber) {
+                                openEventModal(null, dateStr);
+                            }
+                        });
+                    }
+                    
+                    monthGridElement.appendChild(dayCell);
+                }
+            }
+            
+            // Render upcoming events (next 30 days)
+            function renderUpcomingEvents() {
+                upcomingEventsElement.innerHTML = '';
+                
+                const today = new Date();
+                const nextMonth = new Date(today);
+                nextMonth.setDate(today.getDate() + 30);
+                
+                const upcomingEvents = events.filter(event => {
+                    const eventDate = new Date(event.date);
+                    return eventDate >= today && eventDate <= nextMonth;
+                }).sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                if (upcomingEvents.length === 0) {
+                    const noEvents = document.createElement('div');
+                    noEvents.className = 'col-span-3 text-center text-gray-500 py-4';
+                    noEvents.textContent = 'Nenhum evento programado para os próximos 30 dias';
+                    upcomingEventsElement.appendChild(noEvents);
+                    return;
+                }
+                
+                upcomingEvents.forEach(event => {
+                    const eventElement = document.createElement('div');
+                    eventElement.className = 'bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200';
+                    
+                    const eventDate = new Date(event.date);
+                    const day = eventDate.getDate();
+                    const month = eventDate.toLocaleString('default', { month: 'short' });
+                    
+                    let typeColor, typeText;
+                    if (event.type === 'teacher') {
+                        typeColor = 'bg-indigo-600';
+                        typeText = 'Professor';
+                    } else if (event.type === 'staff') {
+                        typeColor = 'bg-emerald-500';
+                        typeText = 'Servidor';
+                    } else {
+                        typeColor = 'bg-amber-500';
+                        typeText = 'Aluno';
+                    }
+                    
+                    eventElement.innerHTML = `
+                        <div class="flex">
+                            <div class="${typeColor} w-16 flex flex-col items-center justify-center text-white p-2">
+                                <div class="text-2xl font-bold">${day}</div>
+                                <div class="text-xs uppercase">${month}</div>
+                            </div>
+                            <div class="flex-1 p-4">
+                                <h4 class="font-semibold mb-1">${event.title}</h4>
+                                <div class="flex items-center text-sm text-gray-500 mb-2">
+                                    <i class="fas fa-users mr-2"></i>
+                                    <span>${typeText}</span>
+                                </div>
+                                <p class="text-sm text-gray-600 line-clamp-2">${event.description}</p>
+                                <button class="mt-3 text-sm text-indigo-600 hover:text-indigo-800 transition-colors">
+                                    Ver detalhes
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    eventElement.querySelector('button').addEventListener('click', () => openEventModal(event));
+                    upcomingEventsElement.appendChild(eventElement);
+                });
+            }
+            
+            // Open event modal (for viewing/editing or creating)
+            function openEventModal(event = null, dateStr = null) {
+                const modalTitle = document.getElementById('modal-title');
+                const eventTitle = document.getElementById('event-title');
+                const eventDate = document.getElementById('event-date');
+                const eventType = document.getElementById('event-type');
+                const eventDescription = document.getElementById('event-description');
+                
+                if (event) {
+                    // Edit existing event
+                    modalTitle.textContent = 'Editar Evento';
+                    eventTitle.value = event.title;
+                    eventDate.value = event.date;
+                    eventType.value = event.type;
+                    eventDescription.value = event.description;
+                    
+                    // Store event ID in form for reference
+                    eventForm.dataset.eventId = event.id;
+                } else {
+                    // Create new event
+                    modalTitle.textContent = 'Adicionar Evento';
+                    eventTitle.value = '';
+                    eventDate.value = dateStr || '';
+                    eventType.value = 'teacher';
+                    eventDescription.value = '';
+                    
+                    // Remove event ID reference
+                    delete eventForm.dataset.eventId;
+                }
+                
+                eventModal.classList.remove('hidden');
+            }
+            
+            // Close event modal
+            function closeEventModal() {
+                eventModal.classList.add('hidden');
+            }
+            
+            // Event listeners
+            prevMonthButton.addEventListener('click', () => {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+            
+            nextMonthButton.addEventListener('click', () => {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+            
+            prevYearButton.addEventListener('click', () => {
+                currentYear--;
+                renderCalendar(currentMonth, currentYear);
+                yearSelector.value = currentYear;
+            });
+            
+            nextYearButton.addEventListener('click', () => {
+                currentYear++;
+                renderCalendar(currentMonth, currentYear);
+                yearSelector.value = currentYear;
+            });
+            
+            todayButton.addEventListener('click', () => {
+                currentDate = new Date();
+                currentMonth = currentDate.getMonth();
+                currentYear = currentDate.getFullYear();
+                renderCalendar(currentMonth, currentYear);
+                yearSelector.value = currentYear;
+            });
+            
+            yearSelector.addEventListener('change', () => {
+                currentYear = parseInt(yearSelector.value);
+                renderCalendar(currentMonth, currentYear);
+            });
+            
+            closeModalButton.addEventListener('click', closeEventModal);
+            cancelEventButton.addEventListener('click', closeEventModal);
+            
+            eventForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const eventId = eventForm.dataset.eventId;
+                const title = document.getElementById('event-title').value;
+                const date = document.getElementById('event-date').value;
+                const type = document.getElementById('event-type').value;
+                const description = document.getElementById('event-description').value;
+                
+                if (eventId) {
+                    // Update existing event
+                    const index = events.findIndex(e => e.id == eventId);
+                    if (index !== -1) {
+                        events[index] = {
+                            id: parseInt(eventId),
+                            title,
+                            date,
+                            type,
+                            description
+                        };
+                    }
+                } else {
+                    // Add new event
+                    const newId = events.length > 0 ? Math.max(...events.map(e => e.id)) + 1 : 1;
+                    events.push({
+                        id: newId,
+                        title,
+                        date,
+                        type,
+                        description
+                    });
+                }
+                
+                closeEventModal();
+                renderCalendar(currentMonth, currentYear);
+                renderUpcomingEvents();
+            });
+            
+            // Initialize the calendar
+            initCalendar();
+        });
+    </script>
+</body>
+</html>
 </html>
