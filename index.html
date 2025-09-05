@@ -308,7 +308,16 @@
             termsInput.checked = false;
 
             setTimeout(() => {
-                window.location.href = 'calendarioescolar.html';
+                try {
+                    window.location.href = 'calendarioescolar.html';
+                    setTimeout(() => {
+                        if (window.location.pathname.indexOf('calendarioescolar.html') === -1) {
+                            alert('Não foi possível acessar a aba calendário. Verifique se o arquivo existe na mesma pasta ou tente novamente.');
+                        }
+                    }, 2000);
+                } catch (err) {
+                    alert('Erro ao tentar acessar a aba calendário: ' + err.message);
+                }
             }, 1000); // 1 segundo de espera
         });
     </script>
