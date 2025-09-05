@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -294,7 +294,9 @@
             }
             
             alert('Cadastro realizado com sucesso! Redirecionando...');
-            window.location.href = 'calendarioescolar.html';
+            setTimeout(() => {
+                window.location.href = 'calendarioescolar.html';
+            }, 1000); // 1 segundo de espera
         });
     </script>
 </body>
