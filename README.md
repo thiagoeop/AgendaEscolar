@@ -263,8 +263,8 @@
             const password = document.getElementById('login-password').value;
             
             if(email && password) {
-                alert('Login realizado com sucesso! Redirecionando para o painel...');
-                // In a real app, you would redirect to the dashboard here
+                alert('Login realizado com sucesso! Redirecionando para o calendário...');
+                window.location.href = 'calendarioescolar.html';
             } else {
                 alert('Por favor, preencha todos os campos!');
             }
@@ -293,10 +293,8 @@
                 return;
             }
             
-            alert('Cadastro realizado com sucesso! Faça login para continuar.');
-            loginTab.click();
-            document.getElementById('login-email').value = email;
-            document.getElementById('login-password').value = password;
+            alert('Cadastro realizado com sucesso! Redirecionando...');
+            window.location.href = 'calendarioescolar.html';
         });
     </script>
 </body>
