@@ -263,7 +263,7 @@
             const password = document.getElementById('login-password').value;
             
             if(email && password) {
-                window.location.href = 'calendarioescolar.html';
+                window.location.href = 'CalendarioEscolar.html';
             } else {
                 alert('Por favor, preencha todos os campos!');
             }
@@ -294,7 +294,7 @@
             
             alert('Conta criada com sucesso!');
             setTimeout(() => {
-                window.location.href = 'calendarioescolar.html';
+                window.location.href = 'CalendarioEscolar.html';
             }, 1000); // 1 segundo de espera
         });
     </script>
