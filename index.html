@@ -1,158 +1,383 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>EduSync - Agenda Acadêmica</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    :root{--primary:#4f46e5;--secondary:#10b981}
-    body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;background:#f1f5f9}
-    .input-field{transition:all .2s;border:1px solid #e6e9ef;border-radius:.5rem;padding:.75rem}
-    .tab-active{border-bottom:3px solid var(--primary);color:var(--primary);font-weight:600}
-    .msg{display:none;padding:.6rem;border-radius:.5rem;font-size:.95rem;margin-top:.75rem}
-    .msg.success{background:rgba(79,70,229,0.08);color:#123}
-    .msg.error{background:rgba(220,38,38,0.06);color:#7a1b1b}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSync - Agenda Acadêmica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --secondary: #10b981;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Cpath fill="%234f46e5" fill-opacity="0.03" d="M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.343 3 3 3zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z"/%3E%3C/svg%3E');
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+        
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+            border: 2px solid #e2e8f0;
+        }
+        
+        .input-field:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #4338ca;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #0d9488;
+            transform: translateY(-2px);
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .tab-active {
+            border-bottom: 3px solid var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+    </style>
 </head>
 <body>
-  <div class="min-h-screen flex flex-col">
-    <header class="bg-gradient-to-r from-indigo-600 to-emerald-500 text-white py-6">
-      <div class="container mx-auto px-4 flex justify-between items-center">
-        <div class="flex items-center gap-3"><i class="fas fa-calendar-alt text-3xl"></i><h1 class="text-2xl font-bold">EduSync</h1></div>
-      </div>
-    </header>
-
-    <main class="flex-grow flex items-center justify-center py-12 px-4">
-      <div class="container mx-auto flex flex-col lg:flex-row items-center justify-center gap-12">
-        <div class="lg:w-1/2 text-center lg:text-left">
-          <h2 class="text-4xl font-bold text-gray-800 mb-4">Gestão Acadêmica <span class="text-indigo-600">Simplificada</span></h2>
-          <p class="text-gray-600 mb-6">Organize atividades e acesse o calendário escolar.</p>
-        </div>
-
-        <div class="lg:w-1/2 max-w-md w-full">
-          <div class="bg-white rounded-xl shadow-md overflow-hidden">
-            <div class="flex border-b">
-              <button id="login-tab" class="flex-1 py-4 px-6 text-center font-medium tab-active"> <i class="fas fa-sign-in-alt mr-2"></i> Login</button>
-              <button id="register-tab" class="flex-1 py-4 px-6 text-center font-medium text-gray-500"> <i class="fas fa-user-plus mr-2"></i> Cadastro</button>
+    <div class="min-h-screen flex flex-col">
+        <!-- Header -->
+        <header class="bg-gradient-to-r from-indigo-600 to-indigo-800 text-white py-6 shadow-lg">
+            <div class="container mx-auto px-4 flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-white bg-opacity-20 p-2 rounded-lg backdrop-blur-sm">
+                        <i class="fas fa-calendar-alt text-3xl"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold">EduSync</h1>
+                </div>
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#" class="hover:text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-lg transition-all">Sobre</a>
+                    <a href="#" class="hover:text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-lg transition-all">Recursos</a>
+                    <a href="#" class="hover:text-white hover:bg-white hover:bg-opacity-20 px-3 py-2 rounded-lg transition-all">Contato</a>
+                </nav>
+                <button class="md:hidden text-2xl bg-white bg-opacity-20 p-2 rounded-lg">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
+        </header>
 
-            <div id="login-form" class="p-6">
-              <label class="block text-gray-700 mb-2">E-mail</label>
-              <input id="login-email" type="email" class="w-full input-field mb-4" placeholder="seu@email.com">
-              <label class="block text-gray-700 mb-2">Senha</label>
-              <input id="login-password" type="password" class="w-full input-field mb-4" placeholder="••••••••">
-              <button id="login-btn" class="w-full py-3 rounded-lg text-white font-medium" style="background:var(--primary)"> <i class="fas fa-sign-in-alt mr-2"></i> Entrar</button>
-              <div id="login-message" class="msg" role="status"></div>
+        <!-- Main Content -->
+        <main class="flex-grow flex items-center justify-center py-12 px-4">
+            <div class="container mx-auto flex flex-col lg:flex-row items-center justify-center gap-12">
+                <!-- Hero Section -->
+                <div class="lg:w-1/2 text-center lg:text-left">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6"><span class="bg-gradient-to-r from-indigo-600 to-emerald-500 bg-clip-text text-transparent">Agenda Escolar</span> <span class="text-gray-800">Simplificada</span></h2>
+                    <p class="text-lg text-gray-600 mb-8 max-w-lg mx-auto lg:mx-0">
+                        A plataforma perfeita para professores e alunos organizarem suas atividades acadêmicas ao longo do ano.
+                    </p>
+                    <div class="relative w-full max-w-lg mx-auto lg:mx-0 h-64 bg-white rounded-xl card-shadow p-4 hidden lg:block">
+                        <div class="absolute -top-4 -left-4 bg-indigo-100 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
+                            <i class="fas fa-chalkboard-teacher text-indigo-600 text-3xl"></i>
+                        </div>
+                        <div class="absolute -bottom-4 -right-4 bg-emerald-100 rounded-lg p-4 w-24 h-24 flex items-center justify-center">
+                            <i class="fas fa-user-graduate text-emerald-600 text-3xl"></i>
+                        </div>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-32 h-32 flex items-center justify-center card-shadow floating">
+                            <i class="fas fa-sync-alt text-indigo-600 text-4xl"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Auth Card -->
+                <div class="lg:w-1/2 max-w-md w-full">
+                    <div class="bg-white rounded-xl card-shadow overflow-hidden">
+                        <!-- Tabs -->
+                        <div class="flex border-b">
+                            <button id="login-tab" class="flex-1 py-4 px-6 text-center font-medium tab-active">
+                                <i class="fas fa-sign-in-alt mr-2"></i> Login
+                            </button>
+                            <button id="register-tab" class="flex-1 py-4 px-6 text-center font-medium text-gray-500">
+                                <i class="fas fa-user-plus mr-2"></i> Cadastro
+                            </button>
+                        </div>
+
+                        <!-- Login Form -->
+                        <div id="login-form" class="p-6">
+                            <div class="mb-6">
+                                <label for="login-email" class="block text-gray-700 mb-2">E-mail</label>
+                                <input type="email" id="login-email" class="w-full px-4 py-3 rounded-lg input-field" placeholder="seu@email.com">
+                            </div>
+                            <div class="mb-6">
+                                <label for="login-password" class="block text-gray-700 mb-2">Senha</label>
+                                <input type="password" id="login-password" class="w-full px-4 py-3 rounded-lg input-field" placeholder="••••••••">
+                            </div>
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="remember-me" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                    <label for="remember-me" class="ml-2 block text-sm text-gray-700">Lembrar-me</label>
+                                </div>
+                                <a href="#" class="text-sm text-indigo-600 hover:text-indigo-500">Esqueceu a senha?</a>
+                            </div>
+                            <button class="w-full py-3 px-4 rounded-lg text-white font-medium bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-md hover:shadow-lg transition-all mb-4 flex items-center justify-center">
+                                <i class="fas fa-sign-in-alt mr-2"></i> Entrar
+                            </button>
+                            <div class="text-center text-sm text-gray-500">
+                                Ou entre com
+                            </div>
+                            <div class="flex justify-center space-x-4 mt-4">
+                                <button class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center" title="Entrar com Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </button>
+                                <button class="w-10 h-10 rounded-full bg-red-600 text-white flex items-center justify-center" title="Entrar com Google" onclick="window.location.href='/auth/google'">
+                                    <i class="fab fa-google"></i>
+                                </button>
+                                <button class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center" title="Entrar com Microsoft">
+                                    <i class="fab fa-microsoft"></i>
+                                </button>
+                                <button class="w-10 h-10 rounded-full bg-black text-white flex items-center justify-center" title="Entrar com Apple">
+                                    <i class="fab fa-apple"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Register Form -->
+                        <div id="register-form" class="p-6 hidden">
+                            <div class="mb-4">
+                                <label class="block text-gray-700 mb-2">Tipo de Usuário</label>
+                                <div class="flex space-x-2">
+                                    <button id="student-type" class="flex-1 py-3 px-2 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition-all shadow-sm hover:shadow group">
+                                        <div class="flex flex-col items-center">
+                                            <div class="bg-indigo-100 rounded-full p-2 mb-1 group-hover:bg-indigo-200 transition-all">
+                                                <i class="fas fa-user-graduate text-indigo-600"></i>
+                                            </div>
+                                            <span>Aluno</span>
+                                        </div>
+                                    </button>
+                                    <button id="teacher-type" class="flex-1 py-3 px-2 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition-all shadow-sm hover:shadow group">
+                                        <div class="flex flex-col items-center">
+                                            <div class="bg-indigo-100 rounded-full p-2 mb-1 group-hover:bg-indigo-200 transition-all">
+                                                <i class="fas fa-chalkboard-teacher text-indigo-600"></i>
+                                            </div>
+                                            <span>Professor</span>
+                                        </div>
+                                    </button>
+                                    <button id="staff-type" class="flex-1 py-3 px-2 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition-all shadow-sm hover:shadow group">
+                                        <div class="flex flex-col items-center">
+                                            <div class="bg-indigo-100 rounded-full p-2 mb-1 group-hover:bg-indigo-200 transition-all">
+                                                <i class="fas fa-user-tie text-indigo-600"></i>
+                                            </div>
+                                            <span>Servidor</span>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="register-name" class="block text-gray-700 mb-2">Nome Completo</label>
+                                <input type="text" id="register-name" class="w-full px-4 py-3 rounded-lg input-field" placeholder="Seu nome completo">
+                            </div>
+                            <div class="mb-4">
+                                <label for="register-email" class="block text-gray-700 mb-2">E-mail</label>
+                                <input type="email" id="register-email" class="w-full px-4 py-3 rounded-lg input-field" placeholder="seu@email.com">
+                            </div>
+                            <div class="mb-4">
+                                <label for="register-password" class="block text-gray-700 mb-2">Senha</label>
+                                <input type="password" id="register-password" class="w-full px-4 py-3 rounded-lg input-field" placeholder="••••••••">
+                            </div>
+                            <div class="mb-6">
+                                <label for="register-confirm-password" class="block text-gray-700 mb-2">Confirmar Senha</label>
+                                <input type="password" id="register-confirm-password" class="w-full px-4 py-3 rounded-lg input-field" placeholder="••••••••">
+                            </div>
+                            <div class="flex items-center mb-6">
+                                <input type="checkbox" id="terms" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
+                                <label for="terms" class="ml-2 block text-sm text-gray-700">
+                                    Concordo com os <a href="#" class="text-indigo-600 hover:text-indigo-500">Termos de Serviço</a> e <a href="#" class="text-indigo-600 hover:text-indigo-500">Política de Privacidade</a>
+                                </label>
+                            </div>
+                            <button id="create-account-btn" class="w-full py-3 px-4 rounded-lg text-white font-medium bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 shadow-md hover:shadow-lg transition-all flex items-center justify-center">
+                                <i class="fas fa-user-plus mr-2"></i> Criar Conta
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </main>
 
-            <div id="register-form" class="p-6 hidden">
-              <label class="block text-gray-700 mb-2">Nome Completo</label>
-              <input id="register-name" type="text" class="w-full input-field mb-4" placeholder="Seu nome completo">
-              <label class="block text-gray-700 mb-2">E-mail</label>
-              <input id="register-email" type="email" class="w-full input-field mb-4" placeholder="seu@email.com">
-              <label class="block text-gray-700 mb-2">Senha</label>
-              <input id="register-password" type="password" class="w-full input-field mb-4" placeholder="••••••••">
-              <label class="block text-gray-700 mb-2">Confirmar Senha</label>
-              <input id="register-confirm-password" type="password" class="w-full input-field mb-4" placeholder="••••••••">
-              <div class="flex items-center mb-4">
-                <input id="terms" type="checkbox" class="h-4 w-4 text-indigo-600 mr-2">
-                <label for="terms" class="text-sm text-gray-700">Concordo com os Termos</label>
-              </div>
-              <button id="register-btn" class="w-full py-3 rounded-lg text-white font-medium" style="background:var(--secondary)"><i class="fas fa-user-plus mr-2"></i> Criar Conta</button>
-              <div id="register-message" class="msg" role="status"></div>
+        <!-- Footer -->
+        <footer class="bg-white py-8 border-t border-gray-200">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="flex items-center space-x-2 mb-4 md:mb-0">
+                        <i class="fas fa-calendar-alt text-indigo-600 text-xl"></i>
+                        <span class="text-lg font-semibold text-gray-800">EduSync</span>
+                    </div>
+                    <div class="flex space-x-6">
+                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="mt-6 text-center md:text-left text-sm text-gray-500">
+                    © 2023 EduSync. Todos os direitos reservados.
+                </div>
             </div>
+        </footer>
+    </div>
 
-          </div>
-        </div>
-      </div>
-    </main>
+    <script>
+        // Tab switching functionality
+        const loginTab = document.getElementById('login-tab');
+        const registerTab = document.getElementById('register-tab');
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        
+        // Tipo de usuário seleção
+        const studentType = document.getElementById('student-type');
+        const teacherType = document.getElementById('teacher-type');
+        const staffType = document.getElementById('staff-type');
+        let userType = ''; // Para armazenar o tipo de usuário selecionado
 
-    <footer class="bg-white py-6 border-t border-gray-200">
-      <div class="container mx-auto px-4 text-center text-sm text-gray-500">© 2024 EduSync</div>
-    </footer>
-  </div>
+        loginTab.addEventListener('click', () => {
+            loginTab.classList.add('tab-active');
+            loginTab.classList.remove('text-gray-500');
+            registerTab.classList.remove('tab-active');
+            registerTab.classList.add('text-gray-500');
+            loginForm.classList.remove('hidden');
+            registerForm.classList.add('hidden');
+        });
+        
+        // Destacar seleção de tipo de usuário
+        studentType.addEventListener('click', () => {
+            studentType.classList.add('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
+            teacherType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
+            staffType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
+            userType = 'aluno';
+        });
+        
+        teacherType.addEventListener('click', () => {
+            teacherType.classList.add('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
+            studentType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
+            staffType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
+            userType = 'professor';
+        });
+        
+        staffType.addEventListener('click', () => {
+            staffType.classList.add('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
+            studentType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
+            teacherType.classList.remove('border-indigo-500', 'text-indigo-600', 'bg-indigo-50');
+            userType = 'servidor';
+        });
 
-  <script>
-    // UX helpers
-    function showMessage(el, text, type = 'success') {
-      el.textContent = text;
-      el.className = 'msg ' + (type === 'success' ? 'success' : 'error');
-      el.style.display = 'block';
-      clearTimeout(el._t);
-      el._t = setTimeout(()=>{ el.style.display = 'none'; }, 5000);
-    }
+        registerTab.addEventListener('click', () => {
+            registerTab.classList.add('tab-active');
+            registerTab.classList.remove('text-gray-500');
+            loginTab.classList.remove('tab-active');
+            loginTab.classList.add('text-gray-500');
+            registerForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+        });
 
-    // Storage helpers
-    const getUsers = () => JSON.parse(localStorage.getItem('users') || '[]');
-    const saveUsers = u => localStorage.setItem('users', JSON.stringify(u));
-    const setCurrentUser = u => localStorage.setItem('currentUser', JSON.stringify(u));
+        // Login form submission
+        document.querySelector('#login-form button').addEventListener('click', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if(!email || !password) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            // Verificar se as credenciais correspondem às cadastradas
+            const registeredEmail = localStorage.getItem('registeredEmail');
+            const registeredPassword = localStorage.getItem('registeredPassword');
+            const registeredName = localStorage.getItem('registeredName');
+            
+            if(email === registeredEmail && password === registeredPassword) {
+                // Salvar dados do usuário no localStorage para manter a sessão
+                localStorage.setItem('userEmail', email);
+                localStorage.setItem('userName', registeredName);
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('userType', localStorage.getItem('userType')); // Manter o tipo de usuário
+                
+                // Redirecionar para a página do calendário
+                window.location.href = 'calendario.html';
+            } else {
+                alert('Email ou senha incorretos!');
+            }
+        });
 
-    // Tabs
-    const loginTab = document.getElementById('login-tab');
-    const registerTab = document.getElementById('register-tab');
-    const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
-    loginTab.addEventListener('click', () => { loginTab.classList.add('tab-active'); registerTab.classList.remove('tab-active'); registerTab.classList.add('text-gray-500'); loginForm.classList.remove('hidden'); registerForm.classList.add('hidden'); });
-    registerTab.addEventListener('click', () => { registerTab.classList.add('tab-active'); loginTab.classList.remove('tab-active'); loginTab.classList.add('text-gray-500'); registerForm.classList.remove('hidden'); loginForm.classList.add('hidden'); });
-
-    // Try HEAD then fallback navigation
-    async function tryOpenCalendar(target = 'calendarioescolar.html') {
-      try {
-        const resp = await fetch(target, { method: 'HEAD' });
-        if (resp.ok) { window.location.href = target; return true; }
-      } catch(_) { /* fetch may fail on file:// — fallback below */ }
-      // fallback: attempt navigation anyway
-      try { window.location.href = target; return true; } catch (e) { return false; }
-    }
-
-    // Login
-    document.getElementById('login-btn').addEventListener('click', (e) => {
-      e.preventDefault();
-      const email = document.getElementById('login-email').value.trim();
-      const password = document.getElementById('login-password').value;
-      const msgEl = document.getElementById('login-message');
-
-      if (!email || !password) { showMessage(msgEl, 'Preencha e‑mail e senha.', 'error'); return; }
-
-      const users = getUsers();
-      const found = users.find(u => u.email === email && u.senha === password);
-      if (!found) { showMessage(msgEl, 'Credenciais inválidas.', 'error'); return; }
-
-      setCurrentUser(found);
-      showMessage(msgEl, 'Login efetuado. Abrindo calendário...', 'success');
-      setTimeout(()=> tryOpenCalendar(), 500);
-    });
-
-    // Register
-    document.getElementById('register-btn').addEventListener('click', (e) => {
-      e.preventDefault();
-      const nameEl = document.getElementById('register-name');
-      const emailEl = document.getElementById('register-email');
-      const passEl = document.getElementById('register-password');
-      const confirmEl = document.getElementById('register-confirm-password');
-      const termsEl = document.getElementById('terms');
-      const msgEl = document.getElementById('register-message');
-
-      const nome = nameEl.value.trim(), email = emailEl.value.trim(), senha = passEl.value, confirm = confirmEl.value;
-
-      if (!nome || !email || !senha || !confirm) { showMessage(msgEl, 'Preencha todos os campos.', 'error'); return; }
-      if (senha !== confirm) { showMessage(msgEl, 'As senhas não coincidem.', 'error'); return; }
-      if (!termsEl.checked) { showMessage(msgEl, 'Aceite os termos para continuar.', 'error'); return; }
-
-      const users = getUsers();
-      if (users.some(u => u.email === email)) { showMessage(msgEl, 'Já existe conta com este e-mail.', 'error'); return; }
-
-      const newUser = { id: Date.now(), nome, email, senha };
-      users.push(newUser); saveUsers(users); setCurrentUser(newUser);
-
-      // clear form
-      nameEl.value = ''; emailEl.value = ''; passEl.value = ''; confirmEl.value = ''; termsEl.checked = false;
-      showMessage(msgEl, 'Conta criada com sucesso. Abrindo calendário...', 'success');
-
-      setTimeout(()=> tryOpenCalendar(), 600);
-    });
-  </script>
+        // Register form submission - apenas no botão Criar Conta
+        document.getElementById('create-account-btn').addEventListener('click', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            const terms = document.getElementById('terms').checked;
+            
+            if(!name || !email || !password || !confirmPassword) {
+                alert('Por favor, preencha todos os campos!');
+                return;
+            }
+            
+            if(password !== confirmPassword) {
+                alert('As senhas não coincidem!');
+                return;
+            }
+            
+            if(!terms) {
+                alert('Você deve aceitar os termos de serviço!');
+                return;
+            }
+            
+            if(!userType) {
+                alert('Por favor, selecione se você é Aluno ou Professor!');
+                return;
+            }
+            
+            // Salvar dados do usuário no localStorage (sem marcar como logado)
+            localStorage.setItem('registeredName', name);
+            localStorage.setItem('registeredEmail', email);
+            localStorage.setItem('registeredPassword', password); // Armazenar senha para validação no login
+            localStorage.setItem('userType', userType); // Salvar tipo de usuário
+            
+            alert('Conta criada com sucesso! Por favor, faça login com suas credenciais.');
+            
+            // Alternar para a aba de login após o cadastro
+            loginTab.click();
+        });
+    </script>
 </body>
 </html>
