@@ -152,6 +152,10 @@
                             <button class="w-full py-3 px-4 rounded-lg text-white font-medium bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 shadow-md hover:shadow-lg transition-all mb-4 flex items-center justify-center">
                                 <i class="fas fa-sign-in-alt mr-2"></i> Entrar
                             </button>
+                            <!-- Botão para acessar o calendário escolar -->
+                            <button id="go-calendar" type="button" class="w-full py-3 px-4 rounded-lg text-white font-medium bg-gradient-to-r from-emerald-500 to-indigo-600 hover:from-emerald-600 hover:to-indigo-700 shadow-md hover:shadow-lg transition-all flex items-center justify-center mt-2">
+                                <i class="fas fa-calendar-alt mr-2"></i> Acessar Calendário Escolar
+                            </button>
                             <div class="text-center text-sm text-gray-500">
                                 Ou entre com
                             </div>
@@ -381,3 +385,33 @@
     </script>
 </body>
 </html>
+
+<script>
+// Redirecionar para calendarioescolar.html após login bem-sucedido
+document.addEventListener('DOMContentLoaded', function() {
+    const loginButton = document.querySelector('#login-form button');
+    if (loginButton) {
+        loginButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Obter valores dos campos
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const registeredEmail = localStorage.getItem('registeredEmail');
+            const registeredPassword = localStorage.getItem('registeredPassword');
+            if (email === registeredEmail && password === registeredPassword) {
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.href = 'calendarioescolar.html';
+            } else {
+                alert('E-mail ou senha incorretos!');
+            }
+        });
+    }
+    // Botão extra para acessar o calendário (opcional)
+    const goCalendar = document.getElementById('go-calendar');
+    if (goCalendar) {
+        goCalendar.addEventListener('click', function() {
+            window.location.href = 'calendarioescolar.html';
+        });
+    }
+});
+</script>
