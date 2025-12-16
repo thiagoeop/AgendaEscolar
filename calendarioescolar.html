@@ -547,9 +547,9 @@
                 if (event) {
                     // Edit existing event - hide title, date, type, show only description
                     modalTitle.textContent = 'Editar Evento';
-                    eventTitleDiv.style.display = 'none';
-                    eventDateDiv.style.display = 'none';
-                    eventTypeDiv.style.display = 'none';
+                    eventTitleDiv.classList.add('hidden');
+                    eventDateDiv.classList.add('hidden');
+                    eventTypeDiv.classList.add('hidden');
                     eventDescription.value = event.description;
                     
                     // Show delete button
@@ -560,9 +560,9 @@
                 } else {
                     // Create new event - show all fields
                     modalTitle.textContent = 'Adicionar Evento';
-                    eventTitleDiv.style.display = 'block';
-                    eventDateDiv.style.display = 'block';
-                    eventTypeDiv.style.display = 'block';
+                    eventTitleDiv.classList.remove('hidden');
+                    eventDateDiv.classList.remove('hidden');
+                    eventTypeDiv.classList.remove('hidden');
                     const eventTitle = document.getElementById('event-title');
                     const eventDate = document.getElementById('event-date');
                     const eventType = document.getElementById('event-type');
