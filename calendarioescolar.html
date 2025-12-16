@@ -626,9 +626,8 @@
             });
             
             todayButton.addEventListener('click', () => {
-                currentDate = new Date();
-                currentMonth = currentDate.getMonth();
-                currentYear = currentDate.getFullYear();
+                currentMonth = 11; // December
+                currentYear = 2025;
                 renderCalendar(currentMonth, currentYear);
                 yearSelector.value = currentYear;
             });
