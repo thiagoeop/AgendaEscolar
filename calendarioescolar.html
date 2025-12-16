@@ -208,9 +208,14 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-xl font-semibold" id="modal-title">Adicionar Evento</h3>
-                        <button id="close-modal" class="text-gray-500 hover:text-gray-700">
-                            <i class="fas fa-times"></i>
-                        </button>
+                        <div class="flex items-center space-x-2">
+                            <button id="delete-event" class="text-red-500 hover:text-red-700 hidden" title="Excluir Evento">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
                     
                     <form id="event-form">
@@ -273,6 +278,7 @@
             const closeModalButton = document.getElementById('close-modal');
             const cancelEventButton = document.getElementById('cancel-event');
             const eventForm = document.getElementById('event-form');
+            const deleteEventButton = document.getElementById('delete-event');
             
             // Sample events data
             let events = [
@@ -533,28 +539,40 @@
             // Open event modal (for viewing/editing or creating)
             function openEventModal(event = null, dateStr = null) {
                 const modalTitle = document.getElementById('modal-title');
-                const eventTitle = document.getElementById('event-title');
-                const eventDate = document.getElementById('event-date');
-                const eventType = document.getElementById('event-type');
+                const eventTitleDiv = document.querySelector('label[for="event-title"]').parentElement;
+                const eventDateDiv = document.querySelector('label[for="event-date"]').parentElement;
+                const eventTypeDiv = document.querySelector('label[for="event-type"]').parentElement;
                 const eventDescription = document.getElementById('event-description');
                 
                 if (event) {
-                    // Edit existing event
+                    // Edit existing event - hide title, date, type, show only description
                     modalTitle.textContent = 'Editar Evento';
-                    eventTitle.value = event.title;
-                    eventDate.value = event.date;
-                    eventType.value = event.type;
+                    eventTitleDiv.style.display = 'none';
+                    eventDateDiv.style.display = 'none';
+                    eventTypeDiv.style.display = 'none';
                     eventDescription.value = event.description;
+                    
+                    // Show delete button
+                    document.getElementById('delete-event').classList.remove('hidden');
                     
                     // Store event ID in form for reference
                     eventForm.dataset.eventId = event.id;
                 } else {
-                    // Create new event
+                    // Create new event - show all fields
                     modalTitle.textContent = 'Adicionar Evento';
+                    eventTitleDiv.style.display = 'block';
+                    eventDateDiv.style.display = 'block';
+                    eventTypeDiv.style.display = 'block';
+                    const eventTitle = document.getElementById('event-title');
+                    const eventDate = document.getElementById('event-date');
+                    const eventType = document.getElementById('event-type');
                     eventTitle.value = '';
                     eventDate.value = dateStr || '';
                     eventType.value = 'teacher';
                     eventDescription.value = '';
+                    
+                    // Hide delete button
+                    document.getElementById('delete-event').classList.add('hidden');
                     
                     // Remove event ID reference
                     delete eventForm.dataset.eventId;
@@ -563,9 +581,17 @@
                 eventModal.classList.remove('hidden');
             }
             
-            // Close event modal
-            function closeEventModal() {
-                eventModal.classList.add('hidden');
+            // Delete event function
+            function deleteEvent(eventId) {
+                if (confirm('Tem certeza que deseja excluir este evento?')) {
+                    const index = events.findIndex(e => e.id == eventId);
+                    if (index !== -1) {
+                        events.splice(index, 1);
+                        closeEventModal();
+                        renderCalendar(currentMonth, currentYear);
+                        renderUpcomingEvents();
+                    }
+                }
             }
             
             // Event listeners
@@ -614,30 +640,30 @@
             
             closeModalButton.addEventListener('click', closeEventModal);
             cancelEventButton.addEventListener('click', closeEventModal);
+            deleteEventButton.addEventListener('click', () => {
+                const eventId = eventForm.dataset.eventId;
+                if (eventId) {
+                    deleteEvent(eventId);
+                }
+            });
             
             eventForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
                 const eventId = eventForm.dataset.eventId;
-                const title = document.getElementById('event-title').value;
-                const date = document.getElementById('event-date').value;
-                const type = document.getElementById('event-type').value;
                 const description = document.getElementById('event-description').value;
                 
                 if (eventId) {
-                    // Update existing event
+                    // Update existing event - only description
                     const index = events.findIndex(e => e.id == eventId);
                     if (index !== -1) {
-                        events[index] = {
-                            id: parseInt(eventId),
-                            title,
-                            date,
-                            type,
-                            description
-                        };
+                        events[index].description = description;
                     }
                 } else {
                     // Add new event
+                    const title = document.getElementById('event-title').value;
+                    const date = document.getElementById('event-date').value;
+                    const type = document.getElementById('event-type').value;
                     const newId = events.length > 0 ? Math.max(...events.map(e => e.id)) + 1 : 1;
                     events.push({
                         id: newId,
