@@ -6,19 +6,17 @@
     <title>Agenda Escolar Anual</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // Verificar login antes de carregar a página
-        (function() {
-            const isLoggedIn = localStorage.getItem('isLoggedIn');
-            if (!isLoggedIn || isLoggedIn !== 'true') {
-                window.location.href = 'index.html';
-            }
-        })();
-    </script>
-    <style>
+        // Configuração do Supabase
+        const supabaseUrl = 'https://your-project.supabase.co'; // Substitua pela URL real do seu projeto Supabase
+        const supabaseKey = 'sb_publishable_VnUv3wfgnZgYiS2L0e3Skg_CqBaDwT9';
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        
+        document.addEventListener('DOMContentLoaded', function() {
         :root {
-            --primary: #8b5cf6;
-            --secondary: #ec4899;
+            --primary: #4f46e5;
+            --secondary: #10b981;
             --tertiary: #f59e0b;
             --light: #f8fafc;
             --dark: #1e293b;
@@ -32,12 +30,12 @@
         
         .event-teacher {
             border-left: 4px solid var(--primary);
-            background-color: rgba(139, 92, 246, 0.1);
+            background-color: rgba(79, 70, 229, 0.1);
         }
         
         .event-staff {
             border-left: 4px solid var(--secondary);
-            background-color: rgba(236, 72, 153, 0.1);
+            background-color: rgba(16, 185, 129, 0.1);
         }
         
         .event-student {
@@ -94,17 +92,17 @@
     <nav class="bg-white bg-opacity-90 backdrop-blur-md shadow-lg sticky top-0 z-50">
         <div class="container mx-auto px-4 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
-                <div class="bg-gradient-to-r from-purple-600 to-pink-600 p-2 rounded-lg shadow-md">
+                <div class="bg-gradient-to-r from-indigo-600 to-indigo-800 p-2 rounded-lg shadow-md">
                     <i class="fas fa-calendar-alt text-white text-xl"></i>
                 </div>
-                <span class="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">EduSync</span>
+                <span class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-emerald-500 bg-clip-text text-transparent">EduSync</span>
             </div>
             <div class="flex items-center space-x-6">
                 <div id="user-info" class="text-sm font-medium text-gray-700 flex items-center">
-                    <i class="fas fa-user-circle text-purple-500 mr-2 text-lg"></i>
+                    <i class="fas fa-user-circle text-indigo-500 mr-2 text-lg"></i>
                     <span class="user-name"></span>
                 </div>
-                <button id="logout-btn" onclick="localStorage.removeItem('isLoggedIn'); localStorage.removeItem('userName'); localStorage.removeItem('userType'); window.location.href='index.html';" class="text-sm bg-white hover:bg-gray-100 text-purple-600 hover:text-purple-800 px-4 py-2 rounded-lg border border-purple-200 shadow-sm hover:shadow transition-all flex items-center">
+                <button id="logout-btn" class="text-sm bg-white hover:bg-gray-100 text-indigo-600 hover:text-indigo-800 px-4 py-2 rounded-lg border border-indigo-200 shadow-sm hover:shadow transition-all flex items-center">
                     <i class="fas fa-sign-out-alt mr-2"></i> Sair
                 </button>
             </div>
@@ -116,21 +114,21 @@
         <header class="mb-8">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 class="text-3xl font-bold text-gray-900 bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">Agenda Escolar</h1>
+                    <h1 class="text-3xl font-bold text-gray-900 bg-gradient-to-r from-indigo-600 to-emerald-500 bg-clip-text text-transparent">Agenda Escolar</h1>
                     <p class="text-gray-600">Organize seu ano acadêmico</p>
                 </div>
                 <div class="flex items-center gap-4">
                     <div class="relative">
-                        <select id="year-selector" class="appearance-none bg-white border-2 border-purple-200 rounded-lg py-2 pl-4 pr-10 text-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500 shadow-sm transition-all hover:shadow">
+                        <select id="year-selector" class="appearance-none bg-white border-2 border-indigo-200 rounded-lg py-2 pl-4 pr-10 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm transition-all hover:shadow">
                             <option value="2024">2024</option>
                             <option value="2025">2025</option>
                             <option value="2026">2026</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-purple-600">
+                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-indigo-600">
                             <i class="fas fa-chevron-down"></i>
                         </div>
                     </div>
-                    <button id="today-btn" class="bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+                    <button id="today-btn" class="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white px-6 py-2 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
                         <i class="fas fa-calendar-day"></i> Hoje
                     </button>
                 </div>
@@ -138,11 +136,11 @@
             
             <div class="mt-6 flex flex-wrap gap-2">
                 <div class="flex items-center">
-                    <div class="w-4 h-4 bg-purple-600 rounded-full mr-2"></div>
+                    <div class="w-4 h-4 bg-indigo-600 rounded-full mr-2"></div>
                     <span class="text-sm">Professores</span>
                 </div>
                 <div class="flex items-center">
-                    <div class="w-4 h-4 bg-pink-500 rounded-full mr-2"></div>
+                    <div class="w-4 h-4 bg-emerald-500 rounded-full mr-2"></div>
                     <span class="text-sm">Servidores</span>
                 </div>
                 <div class="flex items-center">
@@ -154,7 +152,7 @@
         
         <!-- Month Navigation -->
         <div class="flex justify-between items-center mb-6">
-            <button id="prev-year" class="p-3 rounded-full hover:bg-purple-100 text-purple-600 transition-all shadow-sm hover:shadow">
+            <button id="prev-year" class="p-3 rounded-full hover:bg-indigo-100 text-indigo-600 transition-all shadow-sm hover:shadow">
                 <i class="fas fa-chevron-left"></i>
             </button>
             
@@ -163,14 +161,14 @@
                     <i class="fas fa-chevron-left"></i>
                 </button>
                 
-                <h2 id="current-month-year" class="text-xl font-semibold text-center">Dezembro 2025</h2>
+                <h2 id="current-month-year" class="text-xl font-semibold text-center">Janeiro 2024</h2>
                 
                 <button id="next-month" class="p-2 rounded-full hover:bg-gray-200 transition-colors">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
             
-            <button id="next-year" class="p-3 rounded-full hover:bg-purple-100 text-purple-600 transition-all shadow-sm hover:shadow">
+            <button id="next-year" class="p-3 rounded-full hover:bg-indigo-100 text-indigo-600 transition-all shadow-sm hover:shadow">
                 <i class="fas fa-chevron-right"></i>
             </button>
         </div>
@@ -208,46 +206,41 @@
                 <div class="p-6">
                     <div class="flex justify-between items-center mb-4">
                         <h3 class="text-xl font-semibold" id="modal-title">Adicionar Evento</h3>
-                        <div class="flex items-center space-x-2">
-                            <button id="delete-event" class="text-red-500 hover:text-red-700 hidden" title="Excluir Evento">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                            <button id="close-modal" class="text-gray-500 hover:text-gray-700">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
+                        <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
                     
                     <form id="event-form">
-                        <div class="mb-4" id="title-div">
-                            <label for="event-title" class="block text-sm font-medium text-gray-700 mb-1">Assunto</label>
-                            <input type="text" id="event-title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                        <div class="mb-4">
+                            <label for="event-title" class="block text-sm font-medium text-gray-700 mb-1">Título</label>
+                            <input type="text" id="event-title" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                         </div>
                         
-                        <div class="mb-4" id="date-div">
+                        <div class="mb-4">
                             <label for="event-date" class="block text-sm font-medium text-gray-700 mb-1">Data</label>
-                            <input type="date" id="event-date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500" required>
+                            <input type="date" id="event-date" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
                         </div>
                         
-                        <div class="mb-4" id="type-div">
+                        <div class="mb-4">
                             <label for="event-type" class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
-                            <select id="event-type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            <select id="event-type" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500">
                                 <option value="teacher">Professor</option>
                                 <option value="staff">Servidor</option>
                                 <option value="student">Aluno</option>
                             </select>
                         </div>
                         
-                        <div class="mb-4" id="description-div">
+                        <div class="mb-4">
                             <label for="event-description" class="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
-                            <textarea id="event-description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                            <textarea id="event-description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
                         </div>
                         
                         <div class="flex justify-end gap-2">
                             <button type="button" id="cancel-event" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors">
                                 Cancelar
                             </button>
-                            <button type="submit" class="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 transition-colors">
+                            <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition-colors">
                                 Salvar
                             </button>
                         </div>
@@ -258,11 +251,16 @@
     </div>
 
     <script>
+        // Configuração do Supabase
+        const supabaseUrl = 'https://your-project.supabase.co'; // Substitua pela URL real do seu projeto Supabase
+        const supabaseKey = 'sb_publishable_VnUv3wfgnZgYiS2L0e3Skg_CqBaDwT9';
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        
         document.addEventListener('DOMContentLoaded', function() {
             // Current date
             let currentDate = new Date();
-            let currentMonth = 11; // December
-            let currentYear = 2025;
+            let currentMonth = currentDate.getMonth();
+            let currentYear = currentDate.getFullYear();
             
             // DOM Elements
             const monthYearElement = document.getElementById('current-month-year');
@@ -278,7 +276,6 @@
             const closeModalButton = document.getElementById('close-modal');
             const cancelEventButton = document.getElementById('cancel-event');
             const eventForm = document.getElementById('event-form');
-            const deleteEventButton = document.getElementById('delete-event');
             
             // Sample events data
             let events = [
@@ -344,34 +341,35 @@
             
             // Verificar se o usuário está logado
             function checkLogin() {
-                const isLoggedIn = localStorage.getItem('isLoggedIn');
-                if (!isLoggedIn || isLoggedIn !== 'true') {
-                    // Redirecionar para a página de login se não estiver logado
-                    window.location.href = 'index.html';
-                } else {
-                    // Exibir informações do usuário
-                    const userName = localStorage.getItem('userName');
-                    const userType = localStorage.getItem('userType');
-                    const userInfoElement = document.querySelector('.user-name');
-                    
-                    if (userInfoElement && userName) {
-                        const typeMap = {
-                            'student': 'Aluno',
-                            'teacher': 'Professor',
-                            'staff': 'Servidor'
-                        };
-                        const displayType = typeMap[userType] || userType;
-                        userInfoElement.textContent = `${userName} (${displayType})`;
+                supabase.auth.getUser().then(({ data: { user }, error }) => {
+                    if (error || !user) {
+                        // Redirecionar para a página de login se não estiver logado
+                        window.location.href = 'index.html';
+                    } else {
+                        // Exibir informações do usuário
+                        const userName = user.user_metadata?.name || user.email;
+                        const userType = user.user_metadata?.userType;
+                        const userInfoElement = document.getElementById('user-info');
+                        
+                        if (userInfoElement) {
+                            // Obter o tipo de usuário salvo no localStorage e mapear para rótulo legível
+                            let userLabel = '';
+                            if (userType === 'aluno') userLabel = 'Aluno';
+                            else if (userType === 'professor') userLabel = 'Professor';
+                            else if (userType === 'servidor') userLabel = 'Servidor';
+
+                            const displayName = userName || '';
+                            userInfoElement.innerHTML = `<i class="fas fa-user mr-1"></i> ${userLabel ? userLabel + ' • ' : ''}${displayName}`;
+                        }
                     }
-                }
+                });
             }
             
             // Função de logout
             function logout() {
-                localStorage.removeItem('isLoggedIn');
-                localStorage.removeItem('userEmail');
-                localStorage.removeItem('userName');
-                window.location.href = 'index.html';
+                supabase.auth.signOut().then(() => {
+                    window.location.href = 'index.html';
+                });
             }
             
             // Render calendar for specific month and year
@@ -501,10 +499,10 @@
                     
                     let typeColor, typeText;
                     if (event.type === 'teacher') {
-                        typeColor = 'bg-purple-600';
+                        typeColor = 'bg-indigo-600';
                         typeText = 'Professor';
                     } else if (event.type === 'staff') {
-                        typeColor = 'bg-pink-500';
+                        typeColor = 'bg-emerald-500';
                         typeText = 'Servidor';
                     } else {
                         typeColor = 'bg-amber-500';
@@ -539,40 +537,28 @@
             // Open event modal (for viewing/editing or creating)
             function openEventModal(event = null, dateStr = null) {
                 const modalTitle = document.getElementById('modal-title');
-                const eventTitleDiv = document.getElementById('title-div');
-                const eventDateDiv = document.getElementById('date-div');
-                const eventTypeDiv = document.getElementById('type-div');
+                const eventTitle = document.getElementById('event-title');
+                const eventDate = document.getElementById('event-date');
+                const eventType = document.getElementById('event-type');
                 const eventDescription = document.getElementById('event-description');
                 
                 if (event) {
-                    // Edit existing event - hide title, date, type, show only description
+                    // Edit existing event
                     modalTitle.textContent = 'Editar Evento';
-                    eventTitleDiv.classList.add('hidden');
-                    eventDateDiv.classList.add('hidden');
-                    eventTypeDiv.classList.add('hidden');
+                    eventTitle.value = event.title;
+                    eventDate.value = event.date;
+                    eventType.value = event.type;
                     eventDescription.value = event.description;
-                    
-                    // Show delete button
-                    document.getElementById('delete-event').classList.remove('hidden');
                     
                     // Store event ID in form for reference
                     eventForm.dataset.eventId = event.id;
                 } else {
-                    // Create new event - show all fields
+                    // Create new event
                     modalTitle.textContent = 'Adicionar Evento';
-                    eventTitleDiv.classList.remove('hidden');
-                    eventDateDiv.classList.remove('hidden');
-                    eventTypeDiv.classList.remove('hidden');
-                    const eventTitle = document.getElementById('event-title');
-                    const eventDate = document.getElementById('event-date');
-                    const eventType = document.getElementById('event-type');
                     eventTitle.value = '';
                     eventDate.value = dateStr || '';
                     eventType.value = 'teacher';
                     eventDescription.value = '';
-                    
-                    // Hide delete button
-                    document.getElementById('delete-event').classList.add('hidden');
                     
                     // Remove event ID reference
                     delete eventForm.dataset.eventId;
@@ -581,17 +567,9 @@
                 eventModal.classList.remove('hidden');
             }
             
-            // Delete event function
-            function deleteEvent(eventId) {
-                if (confirm('Tem certeza que deseja excluir este evento?')) {
-                    const index = events.findIndex(e => e.id == eventId);
-                    if (index !== -1) {
-                        events.splice(index, 1);
-                        closeEventModal();
-                        renderCalendar(currentMonth, currentYear);
-                        renderUpcomingEvents();
-                    }
-                }
+            // Close event modal
+            function closeEventModal() {
+                eventModal.classList.add('hidden');
             }
             
             // Event listeners
@@ -626,8 +604,9 @@
             });
             
             todayButton.addEventListener('click', () => {
-                currentMonth = 11; // December
-                currentYear = 2025;
+                currentDate = new Date();
+                currentMonth = currentDate.getMonth();
+                currentYear = currentDate.getFullYear();
                 renderCalendar(currentMonth, currentYear);
                 yearSelector.value = currentYear;
             });
@@ -639,30 +618,30 @@
             
             closeModalButton.addEventListener('click', closeEventModal);
             cancelEventButton.addEventListener('click', closeEventModal);
-            deleteEventButton.addEventListener('click', () => {
-                const eventId = eventForm.dataset.eventId;
-                if (eventId) {
-                    deleteEvent(eventId);
-                }
-            });
             
             eventForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 
                 const eventId = eventForm.dataset.eventId;
+                const title = document.getElementById('event-title').value;
+                const date = document.getElementById('event-date').value;
+                const type = document.getElementById('event-type').value;
                 const description = document.getElementById('event-description').value;
                 
                 if (eventId) {
-                    // Update existing event - only description
+                    // Update existing event
                     const index = events.findIndex(e => e.id == eventId);
                     if (index !== -1) {
-                        events[index].description = description;
+                        events[index] = {
+                            id: parseInt(eventId),
+                            title,
+                            date,
+                            type,
+                            description
+                        };
                     }
                 } else {
                     // Add new event
-                    const title = document.getElementById('event-title').value;
-                    const date = document.getElementById('event-date').value;
-                    const type = document.getElementById('event-type').value;
                     const newId = events.length > 0 ? Math.max(...events.map(e => e.id)) + 1 : 1;
                     events.push({
                         id: newId,
