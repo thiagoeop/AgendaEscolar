@@ -3,20 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduSync - Agenda Acadêmica</title>
+    <title>GAS - Gestão Acadêmica Simplificada</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: '#1a365d',
+                            dark: '#0f2541',
+                            light: '#2d4a7c'
+                        },
+                        secondary: {
+                            DEFAULT: '#2d5aa0',
+                            dark: '#1e3a6e',
+                            light: '#4a7bc9'
+                        },
+                        accent: {
+                            DEFAULT: '#38b2ac',
+                            dark: '#2c7a7b',
+                            light: '#4fd1c5'
+                        },
+                        dark: {
+                            DEFAULT: '#0f172a',
+                            light: '#1e293b'
+                        }
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4f46e5;
-            --primary-dark: #4338ca;
-            --secondary: #10b981;
-            --secondary-dark: #0d9488;
-            --tertiary: #f59e0b;
+            --primary: #1a365d;
+            --primary-dark: #0f2541;
+            --primary-light: #2d4a7c;
+            --secondary: #2d5aa0;
+            --secondary-dark: #1e3a6e;
+            --secondary-light: #4a7bc9;
+            --accent: #38b2ac;
+            --accent-dark: #2c7a7b;
+            --accent-light: #4fd1c5;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
             --light: #f8fafc;
-            --dark: #1e293b;
             --gray-light: #f1f5f9;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
         }
         
         * {
@@ -27,48 +67,69 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--gray-light);
-            color: var(--dark);
+            background: linear-gradient(135deg, var(--dark) 0%, var(--primary) 100%);
+            color: var(--light);
             min-height: 100vh;
         }
         
+        .glass-effect {
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
         .gradient-bg {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--dark) 100%);
+        }
+        
+        .gradient-accent {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
         }
         
         .card-shadow {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4), 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-shadow-light {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
         }
         
         .input-field {
             transition: all 0.3s ease;
-            border: 2px solid #e2e8f0;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.7);
+            color: white;
             outline: none;
         }
         
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
         .input-field:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(56, 178, 172, 0.3);
+            background: rgba(15, 23, 42, 0.9);
         }
         
         .btn-primary {
-            background-color: var(--primary);
+            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
             transition: all 0.3s ease;
         }
         
         .btn-primary:hover {
-            background-color: var(--primary-dark);
             transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(56, 178, 172, 0.3);
         }
         
         .btn-secondary {
-            background-color: var(--secondary);
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary) 100%);
             transition: all 0.3s ease;
         }
         
         .btn-secondary:hover {
-            background-color: var(--secondary-dark);
             transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(45, 90, 160, 0.3);
         }
         
         .floating {
@@ -77,14 +138,23 @@
         
         @keyframes floating {
             0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); }
             100% { transform: translateY(0px); }
         }
         
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
         .tab-active {
-            border-bottom: 3px solid var(--primary);
-            color: var(--primary);
-            font-weight: 600;
+            border-bottom: 3px solid var(--accent);
+            color: var(--accent);
+            font-weight: 700;
         }
         
         /* Mobile menu */
@@ -122,13 +192,23 @@
             to { transform: rotate(360deg); }
         }
         
-        /* Error states */
+        /* Success/Error states */
         .input-error {
-            border-color: #ef4444 !important;
+            border-color: var(--error) !important;
+        }
+        
+        .input-success {
+            border-color: var(--success) !important;
         }
         
         .error-message {
-            color: #ef4444;
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+        
+        .success-message {
+            color: var(--success);
             font-size: 0.875rem;
             margin-top: 0.25rem;
         }
@@ -140,21 +220,21 @@
         }
         
         .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary) 0%, #2c3e50 100%);
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--secondary) 100%);
             border-radius: 12px;
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 8px 20px rgba(56, 178, 172, 0.3);
             margin-right: 15px;
         }
         
         .book-icon {
-            width: 30px;
-            height: 22px;
+            width: 32px;
+            height: 24px;
             background-color: white;
             border-radius: 3px 8px 8px 3px;
             position: relative;
@@ -167,8 +247,8 @@
             left: -6px;
             top: 3px;
             width: 8px;
-            height: 16px;
-            background-color: #f1f8ff;
+            height: 18px;
+            background-color: rgba(248, 250, 252, 0.9);
             border-radius: 2px;
         }
         
@@ -176,7 +256,7 @@
             position: absolute;
             width: 25px;
             height: 18px;
-            top: 2px;
+            top: 3px;
             left: 8px;
         }
         
@@ -184,7 +264,7 @@
             position: absolute;
             width: 100%;
             height: 1.5px;
-            background-color: var(--primary);
+            background: linear-gradient(90deg, var(--accent) 0%, var(--secondary) 100%);
             left: 0;
         }
         
@@ -202,17 +282,19 @@
         }
         
         .logo-text-main {
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             font-weight: 800;
             color: white;
             line-height: 1;
             margin-bottom: 2px;
+            letter-spacing: -0.5px;
         }
         
         .logo-text-sub {
             font-size: 0.75rem;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 0.85);
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 0.5px;
         }
         
         /* Logo version for footer */
@@ -230,36 +312,102 @@
         }
         
         .footer-logo .logo-text-main {
-            color: var(--dark);
-            font-size: 1.5rem;
+            color: white;
+            font-size: 1.6rem;
         }
         
         .footer-logo .logo-text-sub {
-            color: var(--dark);
-            opacity: 0.7;
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.8rem;
+        }
+        
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 20px;
+            border-radius: 10px;
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.4s ease-in-out;
+            max-width: 350px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-success {
+            background: linear-gradient(135deg, var(--success) 0%, var(--accent-dark) 100%);
+            border-left: 4px solid white;
+        }
+        
+        .notification-error {
+            background: linear-gradient(135deg, var(--error) 0%, #c53030 100%);
+            border-left: 4px solid white;
+        }
+        
+        /* Custom radio buttons for user type */
+        .user-type-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .user-type-option input[type="radio"] {
+            display: none;
+        }
+        
+        .user-type-option .option-content {
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: rgba(15, 23, 42, 0.5);
+        }
+        
+        .user-type-option input[type="radio"]:checked + .option-content {
+            border-color: var(--accent);
+            background: rgba(56, 178, 172, 0.1);
+            box-shadow: 0 5px 15px rgba(56, 178, 172, 0.2);
+        }
+        
+        .user-type-option .option-content:hover {
+            border-color: var(--accent-light);
+            transform: translateY(-3px);
         }
         
         @media (max-width: 640px) {
             .logo-text-main {
-                font-size: 1.3rem;
+                font-size: 1.4rem;
             }
             
             .logo-text-sub {
-                font-size: 0.65rem;
+                font-size: 0.7rem;
             }
             
             .logo-icon {
-                width: 45px;
-                height: 45px;
+                width: 48px;
+                height: 48px;
+            }
+            
+            .notification {
+                left: 20px;
+                right: 20px;
+                max-width: none;
             }
         }
     </style>
 </head>
 <body>
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+    
     <div class="min-h-screen flex flex-col">
         <!-- Header with Logo -->
-        <header class="gradient-bg text-white py-4 md:py-6 sticky top-0 z-40">
+        <header class="glass-effect text-white py-4 md:py-5 sticky top-0 z-40">
             <div class="container mx-auto px-4 flex justify-between items-center">
                 <div class="logo-container">
                     <div class="logo-icon">
@@ -280,24 +428,24 @@
                 </div>
                 
                 <!-- Desktop Navigation -->
-                <nav class="hidden md:flex space-x-6">
-                    <a href="#" class="hover:text-gray-200 transition py-2">Sobre</a>
-                    <a href="#" class="hover:text-gray-200 transition py-2">Recursos</a>
-                    <a href="#" class="hover:text-gray-200 transition py-2">Contato</a>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#" class="hover:text-accent transition py-2 font-medium">Sobre</a>
+                    <a href="#" class="hover:text-accent transition py-2 font-medium">Recursos</a>
+                    <a href="#" class="hover:text-accent transition py-2 font-medium">Contato</a>
                 </nav>
                 
                 <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden text-2xl">
+                <button id="mobile-menu-btn" class="md:hidden text-2xl hover:text-accent transition">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
         </header>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="mobile-menu fixed inset-0 bg-white z-50 md:hidden">
-            <div class="flex justify-between items-center p-4 border-b">
+        <div id="mobile-menu" class="mobile-menu fixed inset-0 bg-dark z-50 md:hidden">
+            <div class="flex justify-between items-center p-4 border-b border-gray-800">
                 <div class="logo-container">
-                    <div class="logo-icon" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                    <div class="logo-icon">
                         <div class="book-icon">
                             <div class="book-lines">
                                 <div class="book-line"></div>
@@ -309,24 +457,24 @@
                         </div>
                     </div>
                     <div class="logo-text">
-                        <div class="logo-text-main" style="color: var(--dark);">GAS</div>
-                        <div class="logo-text-sub" style="color: var(--dark); opacity: 0.7;">Gestão Acadêmica</div>
+                        <div class="logo-text-main">GAS</div>
+                        <div class="logo-text-sub">Gestão Acadêmica</div>
                     </div>
                 </div>
-                <button id="close-menu" class="text-2xl text-gray-700">
+                <button id="close-menu" class="text-2xl text-gray-300 hover:text-white transition">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
-            <nav class="flex flex-col items-center space-y-6 p-8">
-                <a href="#" class="text-xl font-medium text-gray-800 hover:text-primary transition">Sobre</a>
-                <a href="#" class="text-xl font-medium text-gray-800 hover:text-primary transition">Recursos</a>
-                <a href="#" class="text-xl font-medium text-gray-800 hover:text-primary transition">Contato</a>
-                <div class="pt-8 border-t border-gray-200 w-full text-center">
-                    <div class="flex justify-center space-x-4">
-                        <a href="#" class="text-gray-600 hover:text-primary transition"><i class="fab fa-facebook-f text-xl"></i></a>
-                        <a href="#" class="text-gray-600 hover:text-primary transition"><i class="fab fa-twitter text-xl"></i></a>
-                        <a href="#" class="text-gray-600 hover:text-primary transition"><i class="fab fa-instagram text-xl"></i></a>
-                        <a href="#" class="text-gray-600 hover:text-primary transition"><i class="fab fa-linkedin-in text-xl"></i></a>
+            <nav class="flex flex-col items-center space-y-8 p-8">
+                <a href="#" class="text-xl font-medium text-gray-300 hover:text-accent transition">Sobre</a>
+                <a href="#" class="text-xl font-medium text-gray-300 hover:text-accent transition">Recursos</a>
+                <a href="#" class="text-xl font-medium text-gray-300 hover:text-accent transition">Contato</a>
+                <div class="pt-8 border-t border-gray-800 w-full text-center">
+                    <div class="flex justify-center space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-accent transition"><i class="fab fa-facebook-f text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition"><i class="fab fa-instagram text-xl"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition"><i class="fab fa-linkedin-in text-xl"></i></a>
                     </div>
                 </div>
             </nav>
@@ -334,138 +482,153 @@
 
         <!-- Main Content -->
         <main class="flex-grow flex items-center justify-center py-8 md:py-12 px-4">
-            <div class="container mx-auto flex flex-col lg:flex-row items-center justify-center gap-8 md:gap-12">
+            <div class="container mx-auto flex flex-col lg:flex-row items-center justify-center gap-10 md:gap-16">
                 <!-- Hero Section -->
                 <div class="lg:w-1/2 text-center lg:text-left">
-                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 md:mb-6 leading-tight">
-                        Gestão Acadêmica <span class="text-indigo-600 block lg:inline">Simplificada</span>
+                    <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6 leading-tight">
+                        Gestão Acadêmica <span class="text-accent block lg:inline">Simplificada</span>
                     </h2>
-                    <p class="text-base md:text-lg text-gray-600 mb-6 md:mb-8 max-w-lg mx-auto lg:mx-0">
-                        A plataforma perfeita para professores e alunos organizarem suas atividades acadêmicas ao longo do ano.
+                    <p class="text-base md:text-lg text-gray-300 mb-6 md:mb-8 max-w-lg mx-auto lg:mx-0">
+                        A plataforma definitiva para professores e alunos organizarem suas atividades acadêmicas com eficiência e simplicidade.
                     </p>
                     
                     <!-- Features List -->
-                    <div class="space-y-3 mb-6 md:mb-8 max-w-lg mx-auto lg:mx-0">
+                    <div class="space-y-4 mb-8 md:mb-10 max-w-lg mx-auto lg:mx-0">
                         <div class="flex items-center">
-                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
-                            <span class="text-gray-700">Calendário escolar interativo</span>
+                            <div class="w-8 h-8 rounded-full gradient-accent flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <span class="text-gray-200 font-medium">Calendário escolar interativo</span>
                         </div>
                         <div class="flex items-center">
-                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
-                            <span class="text-gray-700">Gestão de eventos por categoria</span>
+                            <div class="w-8 h-8 rounded-full gradient-accent flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <span class="text-gray-200 font-medium">Gestão de eventos por categoria</span>
                         </div>
                         <div class="flex items-center">
-                            <i class="fas fa-check-circle text-green-500 mr-3"></i>
-                            <span class="text-gray-700">Acesso para professores e alunos</span>
+                            <div class="w-8 h-8 rounded-full gradient-accent flex items-center justify-center mr-3">
+                                <i class="fas fa-check text-white text-sm"></i>
+                            </div>
+                            <span class="text-gray-200 font-medium">Acesso para professores e alunos</span>
                         </div>
                     </div>
                     
                     <!-- Hero Graphic (Hidden on mobile) -->
-                    <div class="relative w-full max-w-lg mx-auto lg:mx-0 h-48 md:h-64 bg-white rounded-xl card-shadow p-4 hidden lg:block">
-                        <div class="absolute -top-4 -left-4 bg-indigo-100 rounded-lg p-4 w-20 h-20 md:w-24 md:h-24 flex items-center justify-center">
-                            <i class="fas fa-chalkboard-teacher text-indigo-600 text-2xl md:text-3xl"></i>
+                    <div class="relative w-full max-w-lg mx-auto lg:mx-0 h-48 md:h-64 glass-effect rounded-xl card-shadow p-4 hidden lg:block">
+                        <div class="absolute -top-4 -left-4 bg-primary-dark rounded-xl p-4 w-20 h-20 md:w-24 md:h-24 flex items-center justify-center border border-gray-800">
+                            <i class="fas fa-chalkboard-teacher text-accent text-2xl md:text-3xl"></i>
                         </div>
-                        <div class="absolute -bottom-4 -right-4 bg-emerald-100 rounded-lg p-4 w-20 h-20 md:w-24 md:h-24 flex items-center justify-center">
-                            <i class="fas fa-user-graduate text-emerald-600 text-2xl md:text-3xl"></i>
+                        <div class="absolute -bottom-4 -right-4 bg-primary-dark rounded-xl p-4 w-20 h-20 md:w-24 md:h-24 flex items-center justify-center border border-gray-800">
+                            <i class="fas fa-user-graduate text-accent text-2xl md:text-3xl"></i>
                         </div>
-                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-full w-24 h-24 md:w-32 md:h-32 flex items-center justify-center card-shadow floating">
-                            <i class="fas fa-sync-alt text-indigo-600 text-3xl md:text-4xl"></i>
+                        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 gradient-accent rounded-full w-24 h-24 md:w-32 md:h-32 flex items-center justify-center card-shadow floating border-4 border-dark">
+                            <i class="fas fa-sync-alt text-white text-3xl md:text-4xl"></i>
                         </div>
                     </div>
                 </div>
 
                 <!-- Auth Card -->
                 <div class="lg:w-1/2 max-w-md w-full">
-                    <div class="bg-white rounded-xl card-shadow overflow-hidden">
+                    <div class="glass-effect rounded-2xl card-shadow overflow-hidden">
                         <!-- Tabs -->
-                        <div class="flex border-b">
-                            <button id="login-tab" class="flex-1 py-3 md:py-4 px-4 md:px-6 text-center font-medium tab-active text-sm md:text-base">
+                        <div class="flex border-b border-gray-800">
+                            <button id="login-tab" class="flex-1 py-4 md:py-5 px-4 md:px-6 text-center font-medium tab-active text-sm md:text-base">
                                 <i class="fas fa-sign-in-alt mr-2"></i> Login
                             </button>
-                            <button id="register-tab" class="flex-1 py-3 md:py-4 px-4 md:px-6 text-center font-medium text-gray-500 text-sm md:text-base">
+                            <button id="register-tab" class="flex-1 py-4 md:py-5 px-4 md:px-6 text-center font-medium text-gray-400 text-sm md:text-base">
                                 <i class="fas fa-user-plus mr-2"></i> Cadastro
                             </button>
                         </div>
 
                         <!-- Login Form -->
-                        <form id="login-form" class="p-4 md:p-6">
-                            <div class="mb-4 md:mb-6">
-                                <label for="login-email" class="block text-gray-700 mb-2 text-sm md:text-base">E-mail</label>
-                                <input type="email" id="login-email" class="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg input-field text-sm md:text-base" placeholder="seu@email.com" required>
+                        <form id="login-form" class="p-5 md:p-7">
+                            <div class="mb-5 md:mb-6">
+                                <label for="login-email" class="block text-gray-300 mb-2 text-sm md:text-base font-medium">E-mail</label>
+                                <input type="email" id="login-email" class="w-full px-4 py-3 rounded-lg input-field text-sm md:text-base" placeholder="seu@email.com" required>
                                 <div id="login-email-error" class="error-message hidden"></div>
                             </div>
-                            <div class="mb-4 md:mb-6">
-                                <label for="login-password" class="block text-gray-700 mb-2 text-sm md:text-base">Senha</label>
-                                <input type="password" id="login-password" class="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg input-field text-sm md:text-base" placeholder="••••••••" required minlength="6">
+                            <div class="mb-5 md:mb-6">
+                                <label for="login-password" class="block text-gray-300 mb-2 text-sm md:text-base font-medium">Senha</label>
+                                <input type="password" id="login-password" class="w-full px-4 py-3 rounded-lg input-field text-sm md:text-base" placeholder="••••••••" required minlength="6">
                                 <div id="login-password-error" class="error-message hidden"></div>
                             </div>
-                            <div class="flex items-center justify-between mb-4 md:mb-6">
+                            <div class="flex items-center justify-between mb-6 md:mb-7">
                                 <div class="flex items-center">
-                                    <input type="checkbox" id="remember-me" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                                    <label for="remember-me" class="ml-2 block text-xs md:text-sm text-gray-700">Lembrar-me</label>
+                                    <input type="checkbox" id="remember-me" class="h-4 w-4 text-accent focus:ring-accent border-gray-600 rounded bg-dark">
+                                    <label for="remember-me" class="ml-2 block text-xs md:text-sm text-gray-300">Lembrar-me</label>
                                 </div>
-                                <a href="#" class="text-xs md:text-sm text-indigo-600 hover:text-indigo-500">Esqueceu a senha?</a>
+                                <a href="#" class="text-xs md:text-sm text-accent hover:text-accent-light font-medium">Esqueceu a senha?</a>
                             </div>
-                            <button type="submit" class="w-full py-2 md:py-3 px-4 rounded-lg text-white font-medium btn-primary mb-4 text-sm md:text-base">
+                            <button type="submit" class="w-full py-3 md:py-3.5 px-4 rounded-lg text-white font-semibold btn-primary mb-5 text-sm md:text-base">
                                 <i class="fas fa-sign-in-alt mr-2"></i> Entrar
                             </button>
-                            <div class="text-center text-xs md:text-sm text-gray-500 mb-2">
+                            <div class="text-center text-xs md:text-sm text-gray-400 mb-3">
                                 Ou entre com
                             </div>
-                            <div class="flex justify-center space-x-3 md:space-x-4">
-                                <button type="button" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition">
+                            <div class="flex justify-center space-x-4 md:space-x-5">
+                                <button type="button" class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition card-shadow-light">
                                     <i class="fab fa-facebook-f text-sm md:text-base"></i>
                                 </button>
-                                <button type="button" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-red-600 text-white flex items-center justify-center hover:bg-red-700 transition">
+                                <button type="button" class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-red-600 text-white flex items-center justify-center hover:bg-red-700 transition card-shadow-light">
                                     <i class="fab fa-google text-sm md:text-base"></i>
                                 </button>
-                                <button type="button" class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-gray-800 text-white flex items-center justify-center hover:bg-gray-900 transition">
+                                <button type="button" class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-gray-700 text-white flex items-center justify-center hover:bg-gray-800 transition card-shadow-light">
                                     <i class="fab fa-microsoft text-sm md:text-base"></i>
                                 </button>
                             </div>
                         </form>
 
                         <!-- Register Form -->
-                        <form id="register-form" class="p-4 md:p-6 hidden">
-                            <div class="mb-4">
-                                <label class="block text-gray-700 mb-2 text-sm md:text-base">Tipo de Usuário</label>
-                                <div class="flex space-x-3 md:space-x-4">
-                                    <button type="button" id="student-btn" class="user-type-btn flex-1 py-2 px-3 md:px-4 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition text-sm md:text-base active">
-                                        <i class="fas fa-user-graduate mr-2"></i> Aluno
-                                    </button>
-                                    <button type="button" id="teacher-btn" class="user-type-btn flex-1 py-2 px-3 md:px-4 rounded-lg border-2 border-gray-200 text-gray-700 font-medium hover:border-indigo-500 hover:text-indigo-600 transition text-sm md:text-base">
-                                        <i class="fas fa-chalkboard-teacher mr-2"></i> Professor
-                                    </button>
+                        <form id="register-form" class="p-5 md:p-7 hidden">
+                            <!-- User Type Selection - Fixed radio buttons -->
+                            <div class="mb-6">
+                                <label class="block text-gray-300 mb-3 text-sm md:text-base font-medium">Tipo de Usuário</label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <label class="user-type-option">
+                                        <input type="radio" name="user-type" value="student" checked>
+                                        <div class="option-content">
+                                            <i class="fas fa-user-graduate text-xl text-accent mb-2"></i>
+                                            <div class="text-gray-200 font-medium text-sm">Aluno</div>
+                                        </div>
+                                    </label>
+                                    <label class="user-type-option">
+                                        <input type="radio" name="user-type" value="teacher">
+                                        <div class="option-content">
+                                            <i class="fas fa-chalkboard-teacher text-xl text-accent mb-2"></i>
+                                            <div class="text-gray-200 font-medium text-sm">Professor</div>
+                                        </div>
+                                    </label>
                                 </div>
-                                <input type="hidden" id="user-type" value="student">
                             </div>
-                            <div class="mb-3 md:mb-4">
-                                <label for="register-name" class="block text-gray-700 mb-1 md:mb-2 text-sm md:text-base">Nome Completo</label>
-                                <input type="text" id="register-name" class="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg input-field text-sm md:text-base" placeholder="Seu nome completo" required>
+                            
+                            <div class="mb-4 md:mb-5">
+                                <label for="register-name" class="block text-gray-300 mb-2 text-sm md:text-base font-medium">Nome Completo</label>
+                                <input type="text" id="register-name" class="w-full px-4 py-3 rounded-lg input-field text-sm md:text-base" placeholder="Seu nome completo" required>
                                 <div id="register-name-error" class="error-message hidden"></div>
                             </div>
-                            <div class="mb-3 md:mb-4">
-                                <label for="register-email" class="block text-gray-700 mb-1 md:mb-2 text-sm md:text-base">E-mail</label>
-                                <input type="email" id="register-email" class="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg input-field text-sm md:text-base" placeholder="seu@email.com" required>
+                            <div class="mb-4 md:mb-5">
+                                <label for="register-email" class="block text-gray-300 mb-2 text-sm md:text-base font-medium">E-mail</label>
+                                <input type="email" id="register-email" class="w-full px-4 py-3 rounded-lg input-field text-sm md:text-base" placeholder="seu@email.com" required>
                                 <div id="register-email-error" class="error-message hidden"></div>
                             </div>
-                            <div class="mb-3 md:mb-4">
-                                <label for="register-password" class="block text-gray-700 mb-1 md:mb-2 text-sm md:text-base">Senha</label>
-                                <input type="password" id="register-password" class="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg input-field text-sm md:text-base" placeholder="••••••••" required minlength="6">
+                            <div class="mb-4 md:mb-5">
+                                <label for="register-password" class="block text-gray-300 mb-2 text-sm md:text-base font-medium">Senha</label>
+                                <input type="password" id="register-password" class="w-full px-4 py-3 rounded-lg input-field text-sm md:text-base" placeholder="••••••••" required minlength="6">
                                 <div id="register-password-error" class="error-message hidden"></div>
                             </div>
-                            <div class="mb-4 md:mb-6">
-                                <label for="register-confirm-password" class="block text-gray-700 mb-1 md:mb-2 text-sm md:text-base">Confirmar Senha</label>
-                                <input type="password" id="register-confirm-password" class="w-full px-3 md:px-4 py-2 md:py-3 rounded-lg input-field text-sm md:text-base" placeholder="••••••••" required>
+                            <div class="mb-5 md:mb-6">
+                                <label for="register-confirm-password" class="block text-gray-300 mb-2 text-sm md:text-base font-medium">Confirmar Senha</label>
+                                <input type="password" id="register-confirm-password" class="w-full px-4 py-3 rounded-lg input-field text-sm md:text-base" placeholder="••••••••" required>
                                 <div id="register-confirm-error" class="error-message hidden"></div>
                             </div>
-                            <div class="flex items-center mb-4 md:mb-6">
-                                <input type="checkbox" id="terms" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" required>
-                                <label for="terms" class="ml-2 block text-xs md:text-sm text-gray-700">
-                                    Concordo com os <a href="#" class="text-indigo-600 hover:text-indigo-500">Termos</a> e <a href="#" class="text-indigo-600 hover:text-indigo-500">Política de Privacidade</a>
+                            <div class="flex items-start mb-6 md:mb-7">
+                                <input type="checkbox" id="terms" class="h-4 w-4 mt-1 text-accent focus:ring-accent border-gray-600 rounded bg-dark" required>
+                                <label for="terms" class="ml-2 block text-xs md:text-sm text-gray-300">
+                                    Concordo com os <a href="#" class="text-accent hover:text-accent-light font-medium">Termos</a> e <a href="#" class="text-accent hover:text-accent-light font-medium">Política de Privacidade</a>
                                 </label>
                             </div>
-                            <button type="submit" class="w-full py-2 md:py-3 px-4 rounded-lg text-white font-medium btn-secondary text-sm md:text-base">
+                            <button type="submit" class="w-full py-3 md:py-3.5 px-4 rounded-lg text-white font-semibold btn-secondary text-sm md:text-base">
                                 <i class="fas fa-user-plus mr-2"></i> Criar Conta
                             </button>
                         </form>
@@ -475,10 +638,10 @@
         </main>
 
         <!-- Footer -->
-        <footer class="bg-white py-6 md:py-8 border-t border-gray-200">
+        <footer class="glass-effect py-6 md:py-8 border-t border-gray-800">
             <div class="container mx-auto px-4">
                 <div class="flex flex-col md:flex-row justify-between items-center">
-                    <div class="footer-logo mb-4 md:mb-0">
+                    <div class="footer-logo mb-5 md:mb-0">
                         <div class="logo-icon">
                             <div class="book-icon">
                                 <div class="book-lines">
@@ -495,14 +658,14 @@
                             <div class="logo-text-sub">Gestão Acadêmica Simplificada</div>
                         </div>
                     </div>
-                    <div class="flex space-x-4 md:space-x-6">
-                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-linkedin-in"></i></a>
+                    <div class="flex space-x-5 md:space-x-6">
+                        <a href="#" class="text-gray-400 hover:text-accent transition"><i class="fab fa-facebook-f text-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition"><i class="fab fa-twitter text-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition"><i class="fab fa-instagram text-lg"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-accent transition"><i class="fab fa-linkedin-in text-lg"></i></a>
                     </div>
                 </div>
-                <div class="mt-4 md:mt-6 text-center md:text-left text-xs md:text-sm text-gray-500">
+                <div class="mt-5 md:mt-6 text-center md:text-left text-xs md:text-sm text-gray-500">
                     © 2023 GAS - Gestão Acadêmica Simplificada. Todos os direitos reservados.
                 </div>
             </div>
@@ -518,24 +681,23 @@
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const closeMenuBtn = document.getElementById('close-menu');
-        const userTypeBtns = document.querySelectorAll('.user-type-btn');
-        const userTypeInput = document.getElementById('user-type');
+        const notificationContainer = document.getElementById('notification-container');
 
         // Tab switching functionality
         function switchToLogin() {
             loginTab.classList.add('tab-active');
-            loginTab.classList.remove('text-gray-500');
+            loginTab.classList.remove('text-gray-400');
             registerTab.classList.remove('tab-active');
-            registerTab.classList.add('text-gray-500');
+            registerTab.classList.add('text-gray-400');
             loginForm.classList.remove('hidden');
             registerForm.classList.add('hidden');
         }
 
         function switchToRegister() {
             registerTab.classList.add('tab-active');
-            registerTab.classList.remove('text-gray-500');
+            registerTab.classList.remove('text-gray-400');
             loginTab.classList.remove('tab-active');
-            loginTab.classList.add('text-gray-500');
+            loginTab.classList.add('text-gray-400');
             registerForm.classList.remove('hidden');
             loginForm.classList.add('hidden');
         }
@@ -562,20 +724,32 @@
             }
         });
 
-        // User type selection
-        userTypeBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                userTypeBtns.forEach(b => {
-                    b.classList.remove('active', 'border-indigo-500', 'text-indigo-600');
-                    b.classList.add('border-gray-200', 'text-gray-700');
-                });
-                
-                btn.classList.add('active', 'border-indigo-500', 'text-indigo-600');
-                btn.classList.remove('border-gray-200', 'text-gray-700');
-                
-                userTypeInput.value = btn.id === 'student-btn' ? 'student' : 'teacher';
-            });
-        });
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} text-white text-lg mr-3"></i>
+                    <div class="text-white font-medium">${message}</div>
+                </div>
+            `;
+            
+            notificationContainer.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 10);
+            
+            // Remove notification after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 400);
+            }, 5000);
+        }
 
         // Utility functions
         function showError(inputId, message) {
@@ -587,11 +761,16 @@
             errorElement.classList.remove('hidden');
         }
 
+        function showSuccess(inputId) {
+            const input = document.getElementById(inputId);
+            input.classList.add('input-success');
+        }
+
         function clearError(inputId) {
             const input = document.getElementById(inputId);
             const errorElement = document.getElementById(`${inputId}-error`);
             
-            input.classList.remove('input-error');
+            input.classList.remove('input-error', 'input-success');
             errorElement.classList.add('hidden');
         }
 
@@ -644,11 +823,16 @@
                 // In a real app, you would send this to your backend
                 console.log('Login attempt:', { email, password });
                 
-                // Redirect to calendar page
-                window.location.href = 'calendarioescolar.html';
+                // Show success notification
+                showNotification('Login realizado com sucesso! Redirecionando...', 'success');
+                
+                // Redirect to calendar page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'calendarioescolar.html';
+                }, 2000);
                 
             } catch (error) {
-                alert('Erro ao fazer login. Por favor, tente novamente.');
+                showNotification('Erro ao fazer login. Por favor, tente novamente.', 'error');
             } finally {
                 submitBtn.classList.remove('btn-loading');
             }
@@ -663,7 +847,7 @@
             const password = document.getElementById('register-password').value;
             const confirmPassword = document.getElementById('register-confirm-password').value;
             const terms = document.getElementById('terms').checked;
-            const userType = userTypeInput.value;
+            const userType = document.querySelector('input[name="user-type"]:checked').value;
             const submitBtn = registerForm.querySelector('button[type="submit"]');
             
             // Clear previous errors
@@ -712,7 +896,7 @@
             
             // Validate terms
             if (!terms) {
-                alert('Você deve aceitar os termos de serviço!');
+                showNotification('Você deve aceitar os termos de serviço!', 'error');
                 isValid = false;
             }
             
@@ -728,15 +912,39 @@
                 // In a real app, you would send this to your backend
                 console.log('Registration:', { name, email, password, userType });
                 
-                alert('Conta criada com sucesso! Redirecionando...');
+                // Show success notification
+                showNotification(`Conta criada com sucesso! Bem-vindo(a) ao GAS${userType === 'teacher' ? ', Professor(a)' : ', Aluno(a)'}! Redirecionando...`, 'success');
                 
-                // Redirect to calendar page
+                // Mark inputs as successful
+                showSuccess('register-name');
+                showSuccess('register-email');
+                showSuccess('register-password');
+                showSuccess('register-confirm-password');
+                
+                // Reset form after success
                 setTimeout(() => {
-                    window.location.href = 'calendarioescolar.html';
-                }, 1000);
+                    registerForm.reset();
+                    // Reset user type to student
+                    document.querySelector('input[name="user-type"][value="student"]').checked = true;
+                    document.querySelectorAll('.user-type-option .option-content').forEach(el => {
+                        el.classList.remove('border-accent', 'bg-opacity-10');
+                    });
+                    document.querySelector('input[name="user-type"][value="student"] + .option-content').classList.add('border-accent', 'bg-opacity-10');
+                    
+                    // Clear success styles
+                    clearError('register-name');
+                    clearError('register-email');
+                    clearError('register-password');
+                    clearError('register-confirm-password');
+                    
+                    // Redirect to calendar page after 3 seconds
+                    setTimeout(() => {
+                        window.location.href = 'calendarioescolar.html';
+                    }, 3000);
+                }, 1500);
                 
             } catch (error) {
-                alert('Erro ao criar conta. Por favor, tente novamente.');
+                showNotification('Erro ao criar conta. Por favor, tente novamente.', 'error');
             } finally {
                 submitBtn.classList.remove('btn-loading');
             }
@@ -745,12 +953,25 @@
         // Social login buttons
         document.querySelectorAll('#login-form button[type="button"]').forEach(btn => {
             btn.addEventListener('click', () => {
-                alert('Funcionalidade de login social será implementada em breve!');
+                showNotification('Funcionalidade de login social será implementada em breve!', 'success');
             });
         });
 
-        // Initialize
+        // Initialize user type selection styles
         document.addEventListener('DOMContentLoaded', () => {
+            // Set initial style for selected user type
+            document.querySelector('input[name="user-type"]:checked + .option-content').classList.add('border-accent', 'bg-opacity-10');
+            
+            // Handle user type selection changes
+            document.querySelectorAll('input[name="user-type"]').forEach(radio => {
+                radio.addEventListener('change', () => {
+                    document.querySelectorAll('.user-type-option .option-content').forEach(el => {
+                        el.classList.remove('border-accent', 'bg-opacity-10');
+                    });
+                    document.querySelector('input[name="user-type"]:checked + .option-content').classList.add('border-accent', 'bg-opacity-10');
+                });
+            });
+            
             // Clear any lingering errors
             document.querySelectorAll('.error-message').forEach(el => {
                 el.classList.add('hidden');
