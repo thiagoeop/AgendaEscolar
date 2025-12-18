@@ -132,16 +132,151 @@
             font-size: 0.875rem;
             margin-top: 0.25rem;
         }
+        
+        /* Logo styles */
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary) 0%, #2c3e50 100%);
+            border-radius: 12px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            margin-right: 15px;
+        }
+        
+        .book-icon {
+            width: 30px;
+            height: 22px;
+            background-color: white;
+            border-radius: 3px 8px 8px 3px;
+            position: relative;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .book-icon:before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 3px;
+            width: 8px;
+            height: 16px;
+            background-color: #f1f8ff;
+            border-radius: 2px;
+        }
+        
+        .book-lines {
+            position: absolute;
+            width: 25px;
+            height: 18px;
+            top: 2px;
+            left: 8px;
+        }
+        
+        .book-line {
+            position: absolute;
+            width: 100%;
+            height: 1.5px;
+            background-color: var(--primary);
+            left: 0;
+        }
+        
+        .book-line:nth-child(1) { top: 0; }
+        .book-line:nth-child(2) { top: 4px; }
+        .book-line:nth-child(3) { top: 8px; }
+        .book-line:nth-child(4) { top: 12px; }
+        .book-line:nth-child(5) { top: 16px; }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        
+        .logo-text-main {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1;
+            margin-bottom: 2px;
+        }
+        
+        .logo-text-sub {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.85);
+        }
+        
+        /* Logo version for footer */
+        .footer-logo {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .footer-logo .logo-icon {
+            margin-right: 0;
+            margin-bottom: 10px;
+            width: 60px;
+            height: 60px;
+        }
+        
+        .footer-logo .logo-text-main {
+            color: var(--dark);
+            font-size: 1.5rem;
+        }
+        
+        .footer-logo .logo-text-sub {
+            color: var(--dark);
+            opacity: 0.7;
+            font-size: 0.8rem;
+        }
+        
+        @media (max-width: 640px) {
+            .logo-text-main {
+                font-size: 1.3rem;
+            }
+            
+            .logo-text-sub {
+                font-size: 0.65rem;
+            }
+            
+            .logo-icon {
+                width: 45px;
+                height: 45px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="min-h-screen flex flex-col">
-        <!-- Header -->
+        <!-- Header with Logo -->
         <header class="gradient-bg text-white py-4 md:py-6 sticky top-0 z-40">
             <div class="container mx-auto px-4 flex justify-between items-center">
-                <div class="flex items-center space-x-2">
-                    <i class="fas fa-calendar-alt text-2xl md:text-3xl"></i>
-                    <h1 class="text-xl md:text-2xl font-bold">EduSync</h1>
+                <div class="logo-container">
+                    <div class="logo-icon">
+                        <div class="book-icon">
+                            <div class="book-lines">
+                                <div class="book-line"></div>
+                                <div class="book-line"></div>
+                                <div class="book-line"></div>
+                                <div class="book-line"></div>
+                                <div class="book-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logo-text">
+                        <div class="logo-text-main">GAS</div>
+                        <div class="logo-text-sub">Gestão Acadêmica Simplificada</div>
+                    </div>
                 </div>
                 
                 <!-- Desktop Navigation -->
@@ -160,7 +295,24 @@
 
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="mobile-menu fixed inset-0 bg-white z-50 md:hidden">
-            <div class="flex justify-end p-4">
+            <div class="flex justify-between items-center p-4 border-b">
+                <div class="logo-container">
+                    <div class="logo-icon" style="background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);">
+                        <div class="book-icon">
+                            <div class="book-lines">
+                                <div class="book-line"></div>
+                                <div class="book-line"></div>
+                                <div class="book-line"></div>
+                                <div class="book-line"></div>
+                                <div class="book-line"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="logo-text">
+                        <div class="logo-text-main" style="color: var(--dark);">GAS</div>
+                        <div class="logo-text-sub" style="color: var(--dark); opacity: 0.7;">Gestão Acadêmica</div>
+                    </div>
+                </div>
                 <button id="close-menu" class="text-2xl text-gray-700">
                     <i class="fas fa-times"></i>
                 </button>
@@ -326,9 +478,22 @@
         <footer class="bg-white py-6 md:py-8 border-t border-gray-200">
             <div class="container mx-auto px-4">
                 <div class="flex flex-col md:flex-row justify-between items-center">
-                    <div class="flex items-center space-x-2 mb-4 md:mb-0">
-                        <i class="fas fa-calendar-alt text-indigo-600 text-lg md:text-xl"></i>
-                        <span class="text-base md:text-lg font-semibold text-gray-800">EduSync</span>
+                    <div class="footer-logo mb-4 md:mb-0">
+                        <div class="logo-icon">
+                            <div class="book-icon">
+                                <div class="book-lines">
+                                    <div class="book-line"></div>
+                                    <div class="book-line"></div>
+                                    <div class="book-line"></div>
+                                    <div class="book-line"></div>
+                                    <div class="book-line"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="logo-text">
+                            <div class="logo-text-main">GAS</div>
+                            <div class="logo-text-sub">Gestão Acadêmica Simplificada</div>
+                        </div>
                     </div>
                     <div class="flex space-x-4 md:space-x-6">
                         <a href="#" class="text-gray-600 hover:text-indigo-600 transition"><i class="fab fa-facebook-f"></i></a>
@@ -338,7 +503,7 @@
                     </div>
                 </div>
                 <div class="mt-4 md:mt-6 text-center md:text-left text-xs md:text-sm text-gray-500">
-                    © 2023 EduSync. Todos os direitos reservados.
+                    © 2023 GAS - Gestão Acadêmica Simplificada. Todos os direitos reservados.
                 </div>
             </div>
         </footer>
