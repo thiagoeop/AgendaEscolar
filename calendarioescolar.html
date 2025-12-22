@@ -181,6 +181,105 @@
             box-shadow: var(--hover-shadow);
         }
         
+        /* User Info Bar */
+        .user-info-bar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .user-role-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .light-mode .user-role-badge.student {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: white;
+        }
+        
+        .dark-mode .user-role-badge.student {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #1e293b;
+        }
+        
+        .light-mode .user-role-badge.teacher {
+            background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+            color: white;
+        }
+        
+        .dark-mode .user-role-badge.teacher {
+            background: linear-gradient(135deg, #818cf8 0%, #4f46e5 100%);
+            color: white;
+        }
+        
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            min-width: 200px;
+            border-radius: 12px;
+            overflow: hidden;
+            transform-origin: top right;
+            animation: fade-in 0.2s ease-out;
+            z-index: 1000;
+        }
+        
+        .light-mode .user-dropdown {
+            background: white;
+            border: 1px solid rgba(226, 232, 240, 0.8);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dark-mode .user-dropdown {
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .user-dropdown-item {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .light-mode .user-dropdown-item {
+            color: #1e293b;
+        }
+        
+        .light-mode .user-dropdown-item:hover {
+            background: #f8fafc;
+        }
+        
+        .dark-mode .user-dropdown-item {
+            color: #f1f5f9;
+        }
+        
+        .dark-mode .user-dropdown-item:hover {
+            background: #334155;
+        }
+        
         /* Month Grid */
         .month-grid {
             display: grid;
@@ -524,6 +623,17 @@
                 flex-direction: column;
                 gap: 16px;
             }
+            
+            .user-info-content {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 8px;
+            }
+            
+            .user-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
         }
         
         /* Event Color Dots */
@@ -641,6 +751,56 @@
     </style>
 </head>
 <body class="light-mode">
+    <!-- User Info Bar -->
+    <div class="user-info-bar text-white py-3 px-4 md:px-6">
+        <div class="container mx-auto">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 user-info-content">
+                <div class="flex items-center gap-4">
+                    <div class="user-avatar" id="user-avatar">
+                        <!-- Avatar will be populated by JavaScript -->
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-3">
+                            <h2 class="font-bold text-lg" id="user-name">Carregando...</h2>
+                            <span class="user-role-badge" id="user-role">...</span>
+                        </div>
+                        <p class="text-sm opacity-80" id="user-email">carregando@email.com</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-4 user-actions">
+                    <div class="hidden md:flex items-center gap-2 text-sm opacity-80">
+                        <i class="fas fa-calendar-day"></i>
+                        <span id="current-date-display">Carregando data...</span>
+                    </div>
+                    
+                    <div class="relative">
+                        <button id="user-menu-btn" class="flex items-center gap-3 px-4 py-2 rounded-lg hover:bg-white/10 transition-colors">
+                            <i class="fas fa-user-circle text-xl"></i>
+                            <span class="hidden md:inline">Minha Conta</span>
+                            <i class="fas fa-chevron-down text-sm"></i>
+                        </button>
+                        
+                        <div id="user-dropdown" class="user-dropdown hidden">
+                            <div class="user-dropdown-item" id="profile-item">
+                                <i class="fas fa-user"></i>
+                                <span>Meu Perfil</span>
+                            </div>
+                            <div class="user-dropdown-item" id="settings-item">
+                                <i class="fas fa-cog"></i>
+                                <span>Configurações</span>
+                            </div>
+                            <div class="user-dropdown-item border-t border-border" id="logout-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Sair</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="container mx-auto px-3 md:px-4 py-6 md:py-8">
         <!-- Header -->
         <header class="mb-8 md:mb-12">
@@ -1083,7 +1243,84 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Sistema de temas
+            // ========== FUNÇÕES DE USUÁRIO ==========
+            function loadUserData() {
+                const userData = JSON.parse(localStorage.getItem('gas_current_user'));
+                
+                if (!userData) {
+                    // Redirecionar para login se não houver usuário logado
+                    window.location.href = 'index.html';
+                    return;
+                }
+                
+                // Atualizar elementos da interface
+                document.getElementById('user-name').textContent = userData.name;
+                document.getElementById('user-email').textContent = userData.email;
+                
+                const userAvatar = document.getElementById('user-avatar');
+                const userName = userData.name.split(' ');
+                const initials = userName.length >= 2 
+                    ? userName[0].charAt(0) + userName[1].charAt(0)
+                    : userName[0].charAt(0);
+                userAvatar.textContent = initials.toUpperCase();
+                
+                const userRole = document.getElementById('user-role');
+                userRole.textContent = userData.userType === 'teacher' ? 'Professor' : 'Aluno';
+                userRole.className = `user-role-badge ${userData.userType}`;
+                
+                // Atualizar data atual
+                const now = new Date();
+                const options = { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                };
+                const currentDateDisplay = document.getElementById('current-date-display');
+                currentDateDisplay.textContent = now.toLocaleDateString('pt-BR', options);
+            }
+            
+            function setupUserMenu() {
+                const userMenuBtn = document.getElementById('user-menu-btn');
+                const userDropdown = document.getElementById('user-dropdown');
+                const logoutItem = document.getElementById('logout-item');
+                const profileItem = document.getElementById('profile-item');
+                const settingsItem = document.getElementById('settings-item');
+                
+                userMenuBtn.addEventListener('click', () => {
+                    userDropdown.classList.toggle('hidden');
+                });
+                
+                logoutItem.addEventListener('click', () => {
+                    // Limpar sessão do usuário
+                    localStorage.removeItem('gas_current_user');
+                    // Redirecionar para login
+                    window.location.href = 'index.html';
+                });
+                
+                profileItem.addEventListener('click', () => {
+                    alert('Funcionalidade de perfil será implementada em breve!');
+                    userDropdown.classList.add('hidden');
+                });
+                
+                settingsItem.addEventListener('click', () => {
+                    alert('Funcionalidade de configurações será implementada em breve!');
+                    userDropdown.classList.add('hidden');
+                });
+                
+                // Fechar dropdown ao clicar fora
+                document.addEventListener('click', (e) => {
+                    if (!userMenuBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+                        userDropdown.classList.add('hidden');
+                    }
+                });
+            }
+            
+            // Carregar dados do usuário
+            loadUserData();
+            setupUserMenu();
+            
+            // ========== SISTEMA DE TEMAS ==========
             const themeToggle = document.getElementById('theme-toggle');
             const body = document.body;
             
@@ -1102,6 +1339,7 @@
                     body.classList.add('light-mode');
                     localStorage.setItem('gas-theme', 'light');
                 }
+                updateThemeVariables();
             });
             
             // Atualizar variáveis CSS quando o tema mudar
@@ -1135,7 +1373,7 @@
             observer.observe(body, { attributes: true, attributeFilter: ['class'] });
             updateThemeVariables(); // Inicializar variáveis
             
-            // Restante do código do calendário...
+            // ========== CALENDÁRIO ==========
             let currentDate = new Date();
             let currentMonth = currentDate.getMonth();
             let currentYear = currentDate.getFullYear();
