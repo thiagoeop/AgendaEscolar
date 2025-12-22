@@ -379,6 +379,38 @@
             transform: translateY(-3px);
         }
         
+        /* Registration success overlay */
+        .success-overlay {
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .form-success {
+            animation: formSuccess 0.5s ease;
+        }
+        
+        @keyframes formSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        .success-check {
+            display: inline-block;
+            margin-left: 10px;
+            color: var(--success);
+            animation: successCheck 0.5s ease;
+        }
+        
+        @keyframes successCheck {
+            0% { opacity: 0; transform: scale(0); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        
         @media (max-width: 640px) {
             .logo-text-main {
                 font-size: 1.4rem;
@@ -581,7 +613,7 @@
 
                         <!-- Register Form -->
                         <form id="register-form" class="p-5 md:p-7 hidden">
-                            <!-- User Type Selection - Fixed radio buttons -->
+                            <!-- User Type Selection -->
                             <div class="mb-6">
                                 <label class="block text-gray-300 mb-3 text-sm md:text-base font-medium">Tipo de Usuário</label>
                                 <div class="grid grid-cols-2 gap-3">
@@ -779,6 +811,60 @@
             return re.test(email);
         }
 
+        // Função para cadastrar usuário (SIMULAÇÃO)
+        async function registerUser(userData) {
+            console.log('Dados para cadastro:', userData);
+            
+            // Simulação de chamada API
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // Verificar se email já existe (simulação)
+                    const users = JSON.parse(localStorage.getItem('gas_users') || '[]');
+                    const emailExists = users.some(user => user.email === userData.email);
+                    
+                    if (emailExists) {
+                        reject('Este e-mail já está cadastrado!');
+                    } else {
+                        resolve({
+                            success: true,
+                            message: 'Usuário cadastrado com sucesso!',
+                            userId: 'user_' + Date.now()
+                        });
+                    }
+                }, 1500);
+            });
+        }
+
+        // Função para mostrar overlay de sucesso no cadastro
+        function showRegistrationSuccess(userType) {
+            const successOverlay = document.createElement('div');
+            successOverlay.className = 'fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center success-overlay';
+            successOverlay.innerHTML = `
+                <div class="glass-effect rounded-2xl p-8 max-w-md w-full mx-4 text-center card-shadow form-success">
+                    <div class="w-20 h-20 mx-auto rounded-full gradient-accent flex items-center justify-center mb-6">
+                        <i class="fas fa-check text-white text-3xl"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-3">Cadastro Concluído!</h3>
+                    <p class="text-gray-300 mb-6">
+                        Bem-vindo(a) ao GAS${userType === 'teacher' ? ', Professor(a)' : ', Aluno(a)'}!<br>
+                        Sua conta foi criada com sucesso.
+                    </p>
+                    <div class="flex space-x-4">
+                        <button onclick="this.parentElement.parentElement.remove(); switchToLogin();" 
+                                class="flex-1 py-3 rounded-lg bg-gray-700 text-white hover:bg-gray-600 transition">
+                            Fazer Login
+                        </button>
+                        <button onclick="this.parentElement.parentElement.remove();" 
+                                class="flex-1 py-3 rounded-lg btn-primary">
+                            Continuar
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(successOverlay);
+        }
+
         // Login form validation and submission
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -820,25 +906,38 @@
                 // Simulate API call
                 await new Promise(resolve => setTimeout(resolve, 1500));
                 
-                // In a real app, you would send this to your backend
-                console.log('Login attempt:', { email, password });
+                // Verificar se usuário existe (simulação)
+                const users = JSON.parse(localStorage.getItem('gas_users') || '[]');
+                const user = users.find(u => u.email === email);
                 
-                // Show success notification
-                showNotification('Login realizado com sucesso! Redirecionando...', 'success');
-                
-                // Redirect to calendar page after 2 seconds
-                setTimeout(() => {
-                    window.location.href = 'calendarioescolar.html';
-                }, 2000);
+                if (user) {
+                    // Show success notification
+                    showNotification('Login realizado com sucesso! Redirecionando...', 'success');
+                    
+                    // Salvar sessão
+                    localStorage.setItem('gas_current_user', JSON.stringify({
+                        id: user.id,
+                        name: user.name,
+                        email: user.email,
+                        userType: user.userType
+                    }));
+                    
+                    // Redirect to calendar page after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'calendarioescolar.html';
+                    }, 2000);
+                } else {
+                    throw new Error('E-mail ou senha incorretos');
+                }
                 
             } catch (error) {
-                showNotification('Erro ao fazer login. Por favor, tente novamente.', 'error');
+                showNotification(error.message || 'Erro ao fazer login. Por favor, tente novamente.', 'error');
             } finally {
                 submitBtn.classList.remove('btn-loading');
             }
         });
 
-        // Register form validation and submission
+        // Register form validation and submission - FUNCIONAL
         registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -902,51 +1001,75 @@
             
             if (!isValid) return;
             
-            // Simulate registration process
+            // Start registration process
             submitBtn.classList.add('btn-loading');
+            submitBtn.disabled = true;
             
             try {
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1500));
+                // Prepare user data
+                const userData = {
+                    name: name,
+                    email: email,
+                    password: '***', // Não salvar senha em claro na vida real!
+                    userType: userType,
+                    createdAt: new Date().toISOString()
+                };
                 
-                // In a real app, you would send this to your backend
-                console.log('Registration:', { name, email, password, userType });
+                // Call registration function
+                const result = await registerUser(userData);
                 
-                // Show success notification
-                showNotification(`Conta criada com sucesso! Bem-vindo(a) ao GAS${userType === 'teacher' ? ', Professor(a)' : ', Aluno(a)'}! Redirecionando...`, 'success');
-                
-                // Mark inputs as successful
-                showSuccess('register-name');
-                showSuccess('register-email');
-                showSuccess('register-password');
-                showSuccess('register-confirm-password');
-                
-                // Reset form after success
-                setTimeout(() => {
-                    registerForm.reset();
-                    // Reset user type to student
-                    document.querySelector('input[name="user-type"][value="student"]').checked = true;
-                    document.querySelectorAll('.user-type-option .option-content').forEach(el => {
-                        el.classList.remove('border-accent', 'bg-opacity-10');
-                    });
-                    document.querySelector('input[name="user-type"][value="student"] + .option-content').classList.add('border-accent', 'bg-opacity-10');
+                if (result.success) {
+                    // Adicionar ID ao userData
+                    userData.id = result.userId;
                     
-                    // Clear success styles
-                    clearError('register-name');
-                    clearError('register-email');
-                    clearError('register-password');
-                    clearError('register-confirm-password');
+                    // Salvar dados no localStorage
+                    const users = JSON.parse(localStorage.getItem('gas_users') || '[]');
+                    users.push(userData);
+                    localStorage.setItem('gas_users', JSON.stringify(users));
                     
-                    // Redirect to calendar page after 3 seconds
+                    // Salvar sessão atual
+                    localStorage.setItem('gas_current_user', JSON.stringify({
+                        id: userData.id,
+                        name: userData.name,
+                        email: userData.email,
+                        userType: userData.userType
+                    }));
+                    
+                    // Mostrar overlay de sucesso
+                    showRegistrationSuccess(userType);
+                    
+                    // Mark inputs as successful
+                    showSuccess('register-name');
+                    showSuccess('register-email');
+                    showSuccess('register-password');
+                    showSuccess('register-confirm-password');
+                    
+                    // Reset form after 3 seconds
                     setTimeout(() => {
-                        window.location.href = 'calendarioescolar.html';
+                        registerForm.reset();
+                        // Reset user type to student
+                        document.querySelector('input[name="user-type"][value="student"]').checked = true;
+                        document.querySelectorAll('.user-type-option .option-content').forEach(el => {
+                            el.classList.remove('border-accent', 'bg-opacity-10');
+                        });
+                        document.querySelector('input[name="user-type"][value="student"] + .option-content').classList.add('border-accent', 'bg-opacity-10');
+                        
+                        // Clear success styles
+                        clearError('register-name');
+                        clearError('register-email');
+                        clearError('register-password');
+                        clearError('register-confirm-password');
                     }, 3000);
-                }, 1500);
+                    
+                } else {
+                    throw new Error(result.message || 'Erro ao cadastrar');
+                }
                 
             } catch (error) {
-                showNotification('Erro ao criar conta. Por favor, tente novamente.', 'error');
+                showNotification(error.message || 'Erro ao criar conta. Por favor, tente novamente.', 'error');
             } finally {
                 submitBtn.classList.remove('btn-loading');
+                submitBtn.disabled = false;
             }
         });
 
@@ -976,6 +1099,30 @@
             document.querySelectorAll('.error-message').forEach(el => {
                 el.classList.add('hidden');
             });
+            
+            // Verificar se já existe algum usuário cadastrado (para teste)
+            if (!localStorage.getItem('gas_users')) {
+                // Criar alguns usuários de exemplo
+                const exampleUsers = [
+                    {
+                        id: 'user_example_1',
+                        name: 'Maria Silva',
+                        email: 'aluno@exemplo.com',
+                        password: '***',
+                        userType: 'student',
+                        createdAt: new Date().toISOString()
+                    },
+                    {
+                        id: 'user_example_2',
+                        name: 'Professor João',
+                        email: 'professor@exemplo.com',
+                        password: '***',
+                        userType: 'teacher',
+                        createdAt: new Date().toISOString()
+                    }
+                ];
+                localStorage.setItem('gas_users', JSON.stringify(exampleUsers));
+            }
         });
     </script>
 </body>
