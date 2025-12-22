@@ -704,426 +704,498 @@
         </footer>
     </div>
 
-    <script>
-        // DOM Elements
-        const loginTab = document.getElementById('login-tab');
-        const registerTab = document.getElementById('register-tab');
-        const loginForm = document.getElementById('login-form');
-        const registerForm = document.getElementById('register-form');
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-        const closeMenuBtn = document.getElementById('close-menu');
-        const notificationContainer = document.getElementById('notification-container');
+  <script>
+    // DOM Elements
+    const loginTab = document.getElementById('login-tab');
+    const registerTab = document.getElementById('register-tab');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const closeMenuBtn = document.getElementById('close-menu');
+    const notificationContainer = document.getElementById('notification-container');
 
-        // Tab switching functionality
-        function switchToLogin() {
-            loginTab.classList.add('tab-active');
-            loginTab.classList.remove('text-gray-400');
-            registerTab.classList.remove('tab-active');
-            registerTab.classList.add('text-gray-400');
-            loginForm.classList.remove('hidden');
-            registerForm.classList.add('hidden');
-        }
+    // Tab switching functionality
+    function switchToLogin() {
+        loginTab.classList.add('tab-active');
+        loginTab.classList.remove('text-gray-400');
+        registerTab.classList.remove('tab-active');
+        registerTab.classList.add('text-gray-400');
+        loginForm.classList.remove('hidden');
+        registerForm.classList.add('hidden');
+    }
 
-        function switchToRegister() {
-            registerTab.classList.add('tab-active');
-            registerTab.classList.remove('text-gray-400');
-            loginTab.classList.remove('tab-active');
-            loginTab.classList.add('text-gray-400');
-            registerForm.classList.remove('hidden');
-            loginForm.classList.add('hidden');
-        }
+    function switchToRegister() {
+        registerTab.classList.add('tab-active');
+        registerTab.classList.remove('text-gray-400');
+        loginTab.classList.remove('tab-active');
+        loginTab.classList.add('text-gray-400');
+        registerForm.classList.remove('hidden');
+        loginForm.classList.add('hidden');
+    }
 
-        loginTab.addEventListener('click', switchToLogin);
-        registerTab.addEventListener('click', switchToRegister);
+    loginTab.addEventListener('click', switchToLogin);
+    registerTab.addEventListener('click', switchToRegister);
 
-        // Mobile menu functionality
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
+    // Mobile menu functionality
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
 
-        closeMenuBtn.addEventListener('click', () => {
+    closeMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+        document.body.style.overflow = '';
+    });
+
+    // Close menu when clicking outside
+    mobileMenu.addEventListener('click', (e) => {
+        if (e.target === mobileMenu) {
             mobileMenu.classList.remove('active');
             document.body.style.overflow = '';
-        });
-
-        // Close menu when clicking outside
-        mobileMenu.addEventListener('click', (e) => {
-            if (e.target === mobileMenu) {
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
-
-        // Notification system
-        function showNotification(message, type = 'success') {
-            const notification = document.createElement('div');
-            notification.className = `notification notification-${type}`;
-            notification.innerHTML = `
-                <div class="flex items-center">
-                    <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} text-white text-lg mr-3"></i>
-                    <div class="text-white font-medium">${message}</div>
-                </div>
-            `;
-            
-            notificationContainer.appendChild(notification);
-            
-            // Show notification
-            setTimeout(() => {
-                notification.classList.add('show');
-            }, 10);
-            
-            // Remove notification after 5 seconds
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => {
-                    notification.remove();
-                }, 400);
-            }, 5000);
         }
+    });
 
-        // Utility functions
-        function showError(inputId, message) {
-            const input = document.getElementById(inputId);
-            const errorElement = document.getElementById(`${inputId}-error`);
-            
+    // Notification system
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="flex items-center">
+                <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'} text-white text-lg mr-3"></i>
+                <div class="text-white font-medium">${message}</div>
+            </div>
+        `;
+        
+        notificationContainer.appendChild(notification);
+        
+        // Show notification
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+        
+        // Remove notification after 5 seconds
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 400);
+        }, 5000);
+    }
+
+    // Utility functions
+    function showError(inputId, message) {
+        const input = document.getElementById(inputId);
+        const errorElement = document.getElementById(`${inputId}-error`);
+        
+        if (input && errorElement) {
             input.classList.add('input-error');
             errorElement.textContent = message;
             errorElement.classList.remove('hidden');
         }
+    }
 
-        function showSuccess(inputId) {
-            const input = document.getElementById(inputId);
+    function showSuccess(inputId) {
+        const input = document.getElementById(inputId);
+        if (input) {
             input.classList.add('input-success');
         }
+    }
 
-        function clearError(inputId) {
-            const input = document.getElementById(inputId);
-            const errorElement = document.getElementById(`${inputId}-error`);
-            
+    function clearError(inputId) {
+        const input = document.getElementById(inputId);
+        const errorElement = document.getElementById(`${inputId}-error`);
+        
+        if (input && errorElement) {
             input.classList.remove('input-error', 'input-success');
             errorElement.classList.add('hidden');
         }
+    }
 
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
 
-        // Função para cadastrar usuário (SIMULAÇÃO)
-        async function registerUser(userData) {
-            console.log('Dados para cadastro:', userData);
-            
-            // Simulação de chamada API
-            return new Promise((resolve, reject) => {
-                setTimeout(() => {
-                    // Verificar se email já existe (simulação)
-                    const users = JSON.parse(localStorage.getItem('gas_users') || '[]');
-                    const emailExists = users.some(user => user.email === userData.email);
-                    
-                    if (emailExists) {
-                        reject('Este e-mail já está cadastrado!');
-                    } else {
-                        resolve({
-                            success: true,
-                            message: 'Usuário cadastrado com sucesso!',
-                            userId: 'user_' + Date.now()
-                        });
-                    }
-                }, 1500);
-            });
-        }
-
-        // Função para mostrar overlay de sucesso no cadastro
-        function showRegistrationSuccess(userType) {
-            const successOverlay = document.createElement('div');
-            successOverlay.className = 'fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center success-overlay';
-            successOverlay.innerHTML = `
-                <div class="glass-effect rounded-2xl p-8 max-w-md w-full mx-4 text-center card-shadow form-success">
-                    <div class="w-20 h-20 mx-auto rounded-full gradient-accent flex items-center justify-center mb-6">
-                        <i class="fas fa-check text-white text-3xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold text-white mb-3">Cadastro Concluído!</h3>
-                    <p class="text-gray-300 mb-6">
-                        Bem-vindo(a) ao GAS${userType === 'teacher' ? ', Professor(a)' : ', Aluno(a)'}!<br>
-                        Sua conta foi criada com sucesso.
-                    </p>
-                    <div class="flex space-x-4">
-                        <button onclick="this.parentElement.parentElement.remove(); switchToLogin();" 
-                                class="flex-1 py-3 rounded-lg bg-gray-700 text-white hover:bg-gray-600 transition">
-                            Fazer Login
-                        </button>
-                        <button onclick="this.parentElement.parentElement.remove();" 
-                                class="flex-1 py-3 rounded-lg btn-primary">
-                            Continuar
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            document.body.appendChild(successOverlay);
-        }
-
-        // Login form validation and submission
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-            const submitBtn = loginForm.querySelector('button[type="submit"]');
-            
-            // Clear previous errors
-            clearError('login-email');
-            clearError('login-password');
-            
-            let isValid = true;
-            
-            // Validate email
-            if (!email) {
-                showError('login-email', 'O e-mail é obrigatório');
-                isValid = false;
-            } else if (!validateEmail(email)) {
-                showError('login-email', 'Por favor, insira um e-mail válido');
-                isValid = false;
-            }
-            
-            // Validate password
-            if (!password) {
-                showError('login-password', 'A senha é obrigatória');
-                isValid = false;
-            } else if (password.length < 6) {
-                showError('login-password', 'A senha deve ter pelo menos 6 caracteres');
-                isValid = false;
-            }
-            
-            if (!isValid) return;
-            
-            // Simulate login process
-            submitBtn.classList.add('btn-loading');
-            
-            try {
-                // Simulate API call
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                // Verificar se usuário existe (simulação)
+    // Função para cadastrar usuário (SIMULAÇÃO)
+    async function registerUser(userData) {
+        console.log('Dados para cadastro:', userData);
+        
+        // Simulação de chamada API
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                // Verificar se email já existe (simulação)
                 const users = JSON.parse(localStorage.getItem('gas_users') || '[]');
-                const user = users.find(u => u.email === email);
+                const emailExists = users.some(user => user.email === userData.email);
                 
-                if (user) {
-                    // Show success notification
-                    showNotification('Login realizado com sucesso! Redirecionando...', 'success');
-                    
-                    // Salvar sessão
-                    localStorage.setItem('gas_current_user', JSON.stringify({
-                        id: user.id,
-                        name: user.name,
-                        email: user.email,
-                        userType: user.userType
-                    }));
-                    
-                    // Redirect to calendar page after 2 seconds
-                    setTimeout(() => {
-                        window.location.href = 'calendarioescolar.html';
-                    }, 2000);
+                if (emailExists) {
+                    reject('Este e-mail já está cadastrado!');
                 } else {
-                    throw new Error('E-mail ou senha incorretos');
+                    resolve({
+                        success: true,
+                        message: 'Usuário cadastrado com sucesso!',
+                        userId: 'user_' + Date.now()
+                    });
                 }
-                
-            } catch (error) {
-                showNotification(error.message || 'Erro ao fazer login. Por favor, tente novamente.', 'error');
-            } finally {
-                submitBtn.classList.remove('btn-loading');
-            }
+            }, 1500);
         });
+    }
 
-        // Register form validation and submission - FUNCIONAL
-        registerForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const name = document.getElementById('register-name').value.trim();
-            const email = document.getElementById('register-email').value.trim();
-            const password = document.getElementById('register-password').value;
-            const confirmPassword = document.getElementById('register-confirm-password').value;
-            const terms = document.getElementById('terms').checked;
-            const userType = document.querySelector('input[name="user-type"]:checked').value;
-            const submitBtn = registerForm.querySelector('button[type="submit"]');
-            
-            // Clear previous errors
-            clearError('register-name');
-            clearError('register-email');
-            clearError('register-password');
-            clearError('register-confirm-password');
-            
-            let isValid = true;
-            
-            // Validate name
-            if (!name) {
-                showError('register-name', 'O nome é obrigatório');
-                isValid = false;
-            } else if (name.length < 2) {
-                showError('register-name', 'O nome deve ter pelo menos 2 caracteres');
-                isValid = false;
-            }
-            
-            // Validate email
-            if (!email) {
-                showError('register-email', 'O e-mail é obrigatório');
-                isValid = false;
-            } else if (!validateEmail(email)) {
-                showError('register-email', 'Por favor, insira um e-mail válido');
-                isValid = false;
-            }
-            
-            // Validate password
-            if (!password) {
-                showError('register-password', 'A senha é obrigatória');
-                isValid = false;
-            } else if (password.length < 6) {
-                showError('register-password', 'A senha deve ter pelo menos 6 caracteres');
-                isValid = false;
-            }
-            
-            // Validate confirm password
-            if (!confirmPassword) {
-                showError('register-confirm-password', 'Confirme sua senha');
-                isValid = false;
-            } else if (password !== confirmPassword) {
-                showError('register-confirm-password', 'As senhas não coincidem');
-                isValid = false;
-            }
-            
-            // Validate terms
-            if (!terms) {
-                showNotification('Você deve aceitar os termos de serviço!', 'error');
-                isValid = false;
-            }
-            
-            if (!isValid) return;
-            
-            // Start registration process
-            submitBtn.classList.add('btn-loading');
-            submitBtn.disabled = true;
-            
-            try {
-                // Prepare user data
-                const userData = {
-                    name: name,
-                    email: email,
-                    password: '***', // Não salvar senha em claro na vida real!
-                    userType: userType,
-                    createdAt: new Date().toISOString()
-                };
-                
-                // Call registration function
-                const result = await registerUser(userData);
-                
-                if (result.success) {
-                    // Adicionar ID ao userData
-                    userData.id = result.userId;
-                    
-                    // Salvar dados no localStorage
-                    const users = JSON.parse(localStorage.getItem('gas_users') || '[]');
-                    users.push(userData);
-                    localStorage.setItem('gas_users', JSON.stringify(users));
-                    
-                    // Salvar sessão atual
-                    localStorage.setItem('gas_current_user', JSON.stringify({
-                        id: userData.id,
-                        name: userData.name,
-                        email: userData.email,
-                        userType: userData.userType
-                    }));
-                    
-                    // Mostrar overlay de sucesso
-                    showRegistrationSuccess(userType);
-                    
-                    // Mark inputs as successful
-                    showSuccess('register-name');
-                    showSuccess('register-email');
-                    showSuccess('register-password');
-                    showSuccess('register-confirm-password');
-                    
-                    // Reset form after 3 seconds
-                    setTimeout(() => {
-                        registerForm.reset();
-                        // Reset user type to student
-                        document.querySelector('input[name="user-type"][value="student"]').checked = true;
-                        document.querySelectorAll('.user-type-option .option-content').forEach(el => {
-                            el.classList.remove('border-accent', 'bg-opacity-10');
-                        });
-                        document.querySelector('input[name="user-type"][value="student"] + .option-content').classList.add('border-accent', 'bg-opacity-10');
-                        
-                        // Clear success styles
-                        clearError('register-name');
-                        clearError('register-email');
-                        clearError('register-password');
-                        clearError('register-confirm-password');
-                    }, 3000);
-                    
-                } else {
-                    throw new Error(result.message || 'Erro ao cadastrar');
-                }
-                
-            } catch (error) {
-                showNotification(error.message || 'Erro ao criar conta. Por favor, tente novamente.', 'error');
-            } finally {
-                submitBtn.classList.remove('btn-loading');
-                submitBtn.disabled = false;
-            }
+    // Função para mostrar overlay de sucesso no cadastro
+    function showRegistrationSuccess(userType) {
+        const successOverlay = document.createElement('div');
+        successOverlay.className = 'fixed inset-0 bg-black bg-opacity-80 z-50 flex items-center justify-center success-overlay';
+        successOverlay.innerHTML = `
+            <div class="glass-effect rounded-2xl p-8 max-w-md w-full mx-4 text-center card-shadow form-success">
+                <div class="w-20 h-20 mx-auto rounded-full gradient-accent flex items-center justify-center mb-6">
+                    <i class="fas fa-check text-white text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-white mb-3">Cadastro Concluído!</h3>
+                <p class="text-gray-300 mb-6">
+                    Bem-vindo(a) ao GAS${userType === 'teacher' ? ', Professor(a)' : ', Aluno(a)'}!<br>
+                    Sua conta foi criada com sucesso.
+                </p>
+                <div class="flex space-x-4">
+                    <button id="success-login-btn" 
+                            class="flex-1 py-3 rounded-lg bg-gray-700 text-white hover:bg-gray-600 transition">
+                        Fazer Login
+                    </button>
+                    <button id="success-continue-btn" 
+                            class="flex-1 py-3 rounded-lg btn-primary">
+                        Continuar
+                    </button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(successOverlay);
+        
+        // Adicionar event listeners aos botões do overlay
+        document.getElementById('success-login-btn').addEventListener('click', function() {
+            successOverlay.remove();
+            switchToLogin();
         });
-
-        // Social login buttons
-        document.querySelectorAll('#login-form button[type="button"]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                showNotification('Funcionalidade de login social será implementada em breve!', 'success');
-            });
+        
+        document.getElementById('success-continue-btn').addEventListener('click', function() {
+            successOverlay.remove();
+            // Redirecionar para a página principal
+            setTimeout(() => {
+                window.location.href = 'calendarioescolar.html';
+            }, 500);
         });
+    }
 
-        // Initialize user type selection styles
-        document.addEventListener('DOMContentLoaded', () => {
-            // Set initial style for selected user type
-            document.querySelector('input[name="user-type"]:checked + .option-content').classList.add('border-accent', 'bg-opacity-10');
+    // Login form validation and submission
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const email = document.getElementById('login-email').value.trim();
+        const password = document.getElementById('login-password').value;
+        const submitBtn = loginForm.querySelector('button[type="submit"]');
+        
+        // Clear previous errors
+        clearError('login-email');
+        clearError('login-password');
+        
+        let isValid = true;
+        
+        // Validate email
+        if (!email) {
+            showError('login-email', 'O e-mail é obrigatório');
+            isValid = false;
+        } else if (!validateEmail(email)) {
+            showError('login-email', 'Por favor, insira um e-mail válido');
+            isValid = false;
+        }
+        
+        // Validate password
+        if (!password) {
+            showError('login-password', 'A senha é obrigatória');
+            isValid = false;
+        } else if (password.length < 6) {
+            showError('login-password', 'A senha deve ter pelo menos 6 caracteres');
+            isValid = false;
+        }
+        
+        if (!isValid) return;
+        
+        // Simulate login process
+        submitBtn.classList.add('btn-loading');
+        submitBtn.disabled = true;
+        
+        try {
+            // Simulate API call
+            await new Promise(resolve => setTimeout(resolve, 1500));
             
-            // Handle user type selection changes
-            document.querySelectorAll('input[name="user-type"]').forEach(radio => {
-                radio.addEventListener('change', () => {
+            // Verificar se usuário existe (simulação)
+            const users = JSON.parse(localStorage.getItem('gas_users') || '[]');
+            const user = users.find(u => u.email === email);
+            
+            if (user) {
+                // Show success notification
+                showNotification('Login realizado com sucesso! Redirecionando...', 'success');
+                
+                // Salvar sessão
+                localStorage.setItem('gas_current_user', JSON.stringify({
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    userType: user.userType
+                }));
+                
+                // Redirect to calendar page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'calendarioescolar.html';
+                }, 2000);
+            } else {
+                throw new Error('E-mail ou senha incorretos');
+            }
+            
+        } catch (error) {
+            showNotification(error.message || 'Erro ao fazer login. Por favor, tente novamente.', 'error');
+        } finally {
+            submitBtn.classList.remove('btn-loading');
+            submitBtn.disabled = false;
+        }
+    });
+
+    // Register form validation and submission - FUNCIONAL
+    registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('Formulário de cadastro enviado');
+        
+        const name = document.getElementById('register-name').value.trim();
+        const email = document.getElementById('register-email').value.trim();
+        const password = document.getElementById('register-password').value;
+        const confirmPassword = document.getElementById('register-confirm-password').value;
+        const terms = document.getElementById('terms').checked;
+        const userType = document.querySelector('input[name="user-type"]:checked').value;
+        const submitBtn = registerForm.querySelector('button[type="submit"]');
+        
+        console.log('Dados coletados:', { name, email, password, confirmPassword, terms, userType });
+        
+        // Clear previous errors
+        clearError('register-name');
+        clearError('register-email');
+        clearError('register-password');
+        clearError('register-confirm-password');
+        
+        let isValid = true;
+        
+        // Validate name
+        if (!name) {
+            showError('register-name', 'O nome é obrigatório');
+            isValid = false;
+        } else if (name.length < 2) {
+            showError('register-name', 'O nome deve ter pelo menos 2 caracteres');
+            isValid = false;
+        }
+        
+        // Validate email
+        if (!email) {
+            showError('register-email', 'O e-mail é obrigatório');
+            isValid = false;
+        } else if (!validateEmail(email)) {
+            showError('register-email', 'Por favor, insira um e-mail válido');
+            isValid = false;
+        }
+        
+        // Validate password
+        if (!password) {
+            showError('register-password', 'A senha é obrigatória');
+            isValid = false;
+        } else if (password.length < 6) {
+            showError('register-password', 'A senha deve ter pelo menos 6 caracteres');
+            isValid = false;
+        }
+        
+        // Validate confirm password
+        if (!confirmPassword) {
+            showError('register-confirm-password', 'Confirme sua senha');
+            isValid = false;
+        } else if (password !== confirmPassword) {
+            showError('register-confirm-password', 'As senhas não coincidem');
+            isValid = false;
+        }
+        
+        // Validate terms - MOSTRAR ERRO NO CAMPO EM VEZ DE NOTIFICAÇÃO
+        if (!terms) {
+            showNotification('Você deve aceitar os termos de serviço!', 'error');
+            isValid = false;
+        }
+        
+        if (!isValid) {
+            console.log('Validação falhou');
+            return;
+        }
+        
+        console.log('Validação passou, iniciando cadastro...');
+        
+        // Start registration process
+        submitBtn.classList.add('btn-loading');
+        submitBtn.disabled = true;
+        
+        try {
+            // Prepare user data
+            const userData = {
+                name: name,
+                email: email,
+                password: password, // Para teste, vamos salvar (na vida real isso seria hasheado)
+                userType: userType,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Call registration function
+            const result = await registerUser(userData);
+            
+            if (result.success) {
+                console.log('Cadastro bem sucedido:', result);
+                
+                // Adicionar ID ao userData
+                userData.id = result.userId;
+                
+                // Salvar dados no localStorage
+                const users = JSON.parse(localStorage.getItem('gas_users') || '[]');
+                users.push(userData);
+                localStorage.setItem('gas_users', JSON.stringify(users));
+                
+                console.log('Usuário salvo no localStorage');
+                
+                // Salvar sessão atual
+                localStorage.setItem('gas_current_user', JSON.stringify({
+                    id: userData.id,
+                    name: userData.name,
+                    email: userData.email,
+                    userType: userData.userType
+                }));
+                
+                // Mostrar overlay de sucesso
+                showRegistrationSuccess(userType);
+                
+                // Mark inputs as successful
+                showSuccess('register-name');
+                showSuccess('register-email');
+                showSuccess('register-password');
+                showSuccess('register-confirm-password');
+                
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    registerForm.reset();
+                    // Reset user type to student
+                    document.querySelector('input[name="user-type"][value="student"]').checked = true;
                     document.querySelectorAll('.user-type-option .option-content').forEach(el => {
                         el.classList.remove('border-accent', 'bg-opacity-10');
                     });
-                    document.querySelector('input[name="user-type"]:checked + .option-content').classList.add('border-accent', 'bg-opacity-10');
-                });
-            });
-            
-            // Clear any lingering errors
-            document.querySelectorAll('.error-message').forEach(el => {
-                el.classList.add('hidden');
-            });
-            
-            // Verificar se já existe algum usuário cadastrado (para teste)
-            if (!localStorage.getItem('gas_users')) {
-                // Criar alguns usuários de exemplo
-                const exampleUsers = [
-                    {
-                        id: 'user_example_1',
-                        name: 'Maria Silva',
-                        email: 'aluno@exemplo.com',
-                        password: '***',
-                        userType: 'student',
-                        createdAt: new Date().toISOString()
-                    },
-                    {
-                        id: 'user_example_2',
-                        name: 'Professor João',
-                        email: 'professor@exemplo.com',
-                        password: '***',
-                        userType: 'teacher',
-                        createdAt: new Date().toISOString()
-                    }
-                ];
-                localStorage.setItem('gas_users', JSON.stringify(exampleUsers));
+                    document.querySelector('input[name="user-type"][value="student"] + .option-content').classList.add('border-accent', 'bg-opacity-10');
+                    
+                    // Clear success styles
+                    clearError('register-name');
+                    clearError('register-email');
+                    clearError('register-password');
+                    clearError('register-confirm-password');
+                    
+                    // Marcar checkbox de termos como não checado
+                    document.getElementById('terms').checked = false;
+                }, 3000);
+                
+            } else {
+                throw new Error(result.message || 'Erro ao cadastrar');
             }
+            
+        } catch (error) {
+            console.error('Erro no cadastro:', error);
+            showNotification(error.message || 'Erro ao criar conta. Por favor, tente novamente.', 'error');
+        } finally {
+            submitBtn.classList.remove('btn-loading');
+            submitBtn.disabled = false;
+            console.log('Processo de cadastro finalizado');
+        }
+    });
+
+    // Social login buttons
+    document.querySelectorAll('#login-form button[type="button"]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            showNotification('Funcionalidade de login social será implementada em breve!', 'success');
         });
-    </script>
+    });
+
+    // Initialize user type selection styles
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('DOM carregado, inicializando...');
+        
+        // Set initial style for selected user type
+        const initialChecked = document.querySelector('input[name="user-type"]:checked');
+        if (initialChecked) {
+            initialChecked.nextElementSibling.classList.add('border-accent', 'bg-opacity-10');
+        }
+        
+        // Handle user type selection changes
+        document.querySelectorAll('input[name="user-type"]').forEach(radio => {
+            radio.addEventListener('change', () => {
+                document.querySelectorAll('.user-type-option .option-content').forEach(el => {
+                    el.classList.remove('border-accent', 'bg-opacity-10');
+                });
+                const checkedRadio = document.querySelector('input[name="user-type"]:checked');
+                if (checkedRadio) {
+                    checkedRadio.nextElementSibling.classList.add('border-accent', 'bg-opacity-10');
+                }
+            });
+        });
+        
+        // Clear any lingering errors
+        document.querySelectorAll('.error-message').forEach(el => {
+            el.classList.add('hidden');
+        });
+        
+        // Verificar se já existe algum usuário cadastrado (para teste)
+        if (!localStorage.getItem('gas_users')) {
+            console.log('Criando usuários de exemplo...');
+            // Criar alguns usuários de exemplo
+            const exampleUsers = [
+                {
+                    id: 'user_example_1',
+                    name: 'Maria Silva',
+                    email: 'aluno@exemplo.com',
+                    password: '123456', // Para teste
+                    userType: 'student',
+                    createdAt: new Date().toISOString()
+                },
+                {
+                    id: 'user_example_2',
+                    name: 'Professor João',
+                    email: 'professor@exemplo.com',
+                    password: '123456', // Para teste
+                    userType: 'teacher',
+                    createdAt: new Date().toISOString()
+                }
+            ];
+            localStorage.setItem('gas_users', JSON.stringify(exampleUsers));
+            console.log('Usuários de exemplo criados:', exampleUsers);
+        } else {
+            console.log('Usuários existentes:', JSON.parse(localStorage.getItem('gas_users')));
+        }
+        
+        // Adicionar debug para verificar se o botão de cadastro está funcionando
+        const registerBtn = registerForm.querySelector('button[type="submit"]');
+        if (registerBtn) {
+            registerBtn.addEventListener('click', function(e) {
+                console.log('Botão de cadastro clicado');
+            });
+        }
+        
+        // Teste rápido: preencher automaticamente o formulário para teste
+        // Descomente as linhas abaixo para teste rápido
+        /*
+        document.getElementById('register-name').value = 'Teste Usuário';
+        document.getElementById('register-email').value = 'teste@exemplo.com';
+        document.getElementById('register-password').value = '123456';
+        document.getElementById('register-confirm-password').value = '123456';
+        document.getElementById('terms').checked = true;
+        */
+        
+        console.log('Inicialização completa');
+    });
+</script>
 </body>
 </html>
+
